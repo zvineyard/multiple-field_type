@@ -1,4 +1,4 @@
-<?php namespace Addon\FieldType\Multiple;
+<?php namespace Streams\Addon\FieldType\Multiple;
 
 use Streams\Core\Addon\FieldTypeAbstract;
 use Streams\Core\Stream\Model\StreamModel;
