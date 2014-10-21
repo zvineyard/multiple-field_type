@@ -1,15 +1,8 @@
-<?php namespace Anomaly\Streams\FieldType\Multiple;
+<?php namespace Anomaly\Streams\Addon\FieldType\Multiple;
 
-use Streams\Core\Addon\FieldTypeAbstract;
-use Streams\Core\Stream\Model\StreamModel;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 
-/**
- * Class Multiple
- *
- * @package Pyro\FieldType
- * @author  AI Web Systems, Inc. - Ryan Thompson
- */
-class MultipleFieldType extends FieldTypeAbstract
+class MultipleFieldType extends FieldTypeAddon
 {
     /**
      * Field type slug
