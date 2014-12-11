@@ -34,11 +34,16 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      * Get the relation.
      *
      * @param EntryModel $model
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne|mixed|null
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|mixed|null
      */
     public function getRelation(EntryModel $model)
     {
-        return $model->hasOne($this->getConfig('related'));
+        return $model->hasMany(
+            $this->pullConfig('related'),
+            $this->getPivotTable(),
+            $this->getForeignKey(),
+            $this->getRelatedKey()
+        );
     }
 
     /**
@@ -94,7 +99,7 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
 
             $value = $entry->getKey();
 
-            if ($title = $this->getConfig('title')) {
+            if ($title = $this->pullConfig('title')) {
 
                 $title = $entry->{$title};
             }
@@ -119,7 +124,7 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      */
     protected function getRelatedModel()
     {
-        $model = $this->getConfig('related');
+        $model = $this->pullConfig('related');
 
         if (!$model) {
 
@@ -137,5 +142,39 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
     public function getValue()
     {
         return (array)parent::getValue();
+    }
+
+    /**
+     * Get the pivot table.
+     *
+     * @return mixed
+     */
+    public function getPivotTable()
+    {
+        $related = app($this->pullConfig('related'));
+
+        $table = $related->getTable();
+
+        return $this->pullConfig('pivot_table', $table . '_' . $this->getField() . '_multiple');
+    }
+
+    /**
+     * Get the foreign key.
+     *
+     * @return mixed
+     */
+    public function getForeignKey()
+    {
+        return $this->pullConfig('foreign_key', 'entry_id');
+    }
+
+    /**
+     * Get the related key.
+     *
+     * @return mixed
+     */
+    public function getRelatedKey()
+    {
+        return $this->pullConfig('related_key', 'related_id');
     }
 }
