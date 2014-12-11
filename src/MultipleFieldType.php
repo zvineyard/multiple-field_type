@@ -151,11 +151,9 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      */
     public function getPivotTable()
     {
-        $related = app($this->pullConfig('related'));
+        $default = 'multiple_' . $this->getField() . '_relations';
 
-        $table = $related->getTable();
-
-        return $this->pullConfig('pivot_table', $table . '_' . $this->getField() . '_multiple');
+        return $this->pullConfig('pivot_table', $default);
     }
 
     /**
