@@ -18,7 +18,7 @@ class MultipleFieldTypeListener extends EventListener
         if ($type instanceof MultipleFieldType) {
 
             $this->execute(
-                '\Anomaly\Streams\Addon\FieldType\Multiple\Command\CreatePivotTableCommand',
+                'Anomaly\Streams\Addon\FieldType\Multiple\Command\CreatePivotTableCommand',
                 compact('type')
             );
         }
