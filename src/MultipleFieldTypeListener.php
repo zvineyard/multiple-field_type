@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Addon\FieldType\Multiple;
 
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreated;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreatedEvent;
 use Laracasts\Commander\CommanderTrait;
 use Laracasts\Commander\Events\EventListener;
 
@@ -9,7 +9,7 @@ class MultipleFieldTypeListener extends EventListener
 
     use CommanderTrait;
 
-    public function whenAssignmentCreated(AssignmentCreated $event)
+    public function whenAssignmentCreated(AssignmentCreatedEvent $event)
     {
         $assignment = $event->getAssignment();
 
