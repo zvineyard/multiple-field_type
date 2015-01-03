@@ -28,7 +28,7 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      *
      * @var string
      */
-    protected $inputView = 'field_type.multiple::input';
+    protected $inputView = 'anomaly.field_type.multiple::input';
 
     /**
      * Get the relation.
