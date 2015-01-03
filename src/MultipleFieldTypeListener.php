@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Addon\FieldType\Multiple;
+<?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreatedEvent;
 use Laracasts\Commander\CommanderTrait;

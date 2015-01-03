@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Addon\FieldType\Multiple;
+<?php namespace Anomaly\MultipleFieldType;
 
 class MultipleFieldTypeServiceProvider extends \Illuminate\Support\ServiceProvider
 {

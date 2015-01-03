@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Addon\FieldType\Multiple;
+<?php namespace Anomaly\MultipleFieldType;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;

@@ -1,6 +1,6 @@
-<?php namespace Anomaly\Streams\Addon\FieldType\Multiple\Command;
+<?php namespace Anomaly\MultipleFieldType\Command;
 
-use Anomaly\Streams\Addon\FieldType\Multiple\MultipleFieldTypeSchema;
+use Anomaly\MultipleFieldTypeSchema;
 
 class CreatePivotTableCommandHandler
 {
