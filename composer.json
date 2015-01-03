@@ -1,5 +1,5 @@
 {
-    "name": "anomaly/multiple-field-type",
+    "name": "anomaly/multiple-field_type",
     "type": "streams-addon",
     "description": "Multiple field type.",
     "authors": [
