@@ -89,7 +89,6 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
         $model = $this->getRelatedModel();
 
         if (!$model instanceof EloquentModel) {
-
             return [];
         }
 
