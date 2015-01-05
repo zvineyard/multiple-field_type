@@ -17,13 +17,6 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
 {
 
     /**
-     * The input class.
-     *
-     * @var null
-     */
-    protected $class = null;
-
-    /**
      * The input view.
      *
      * @var string
@@ -39,25 +32,11 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
     public function getRelation(EntryModel $model)
     {
         return $model->hasMany(
-            $this->pullConfig('related'),
+            array_get($this->config, 'related'),
             $this->getPivotTable(),
             $this->getForeignKey(),
             $this->getRelatedKey()
         );
-    }
-
-    /**
-     * Get view data for the input.
-     *
-     * @return array
-     */
-    public function getInputData()
-    {
-        $data = parent::getInputData();
-
-        $data['options'] = $this->getOptions();
-
-        return $data;
     }
 
     /**
@@ -98,13 +77,11 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
 
             $value = $entry->getKey();
 
-            if ($title = $this->pullConfig('title')) {
-
+            if ($title = array_get($this->config, 'title')) {
                 $title = $entry->{$title};
             }
 
             if (!$title) {
-
                 $title = $entry->getTitle();
             }
 
@@ -123,10 +100,9 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      */
     protected function getRelatedModel()
     {
-        $model = $this->pullConfig('related');
+        $model = array_get($this->config, 'title');
 
         if (!$model) {
-
             return null;
         }
 
@@ -152,7 +128,7 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
     {
         $default = 'multiple_' . $this->getField() . '_relations';
 
-        return $this->pullConfig('pivot_table', $default);
+        return array_get($this->config, 'pivot_table', $default);
     }
 
     /**
@@ -162,7 +138,7 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      */
     public function getForeignKey()
     {
-        return $this->pullConfig('foreign_key', 'entry_id');
+        return array_get($this->config, 'foreign_key', 'entry_id');
     }
 
     /**
@@ -172,6 +148,6 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      */
     public function getRelatedKey()
     {
-        return $this->pullConfig('related_key', 'related_id');
+        return array_get($this->config, 'related_key', 'related_id');
     }
 }
