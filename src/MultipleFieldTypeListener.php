@@ -2,18 +2,17 @@
 
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreatedEvent;
 use Laracasts\Commander\CommanderTrait;
-use Laracasts\Commander\Events\EventListener;
 
-class MultipleFieldTypeListener extends EventListener
+class MultipleFieldTypeListener
 {
 
     use CommanderTrait;
 
-    public function whenAssignmentCreated(AssignmentCreatedEvent $event)
+    public function handle(AssignmentCreatedEvent $event)
     {
         $assignment = $event->getAssignment();
 
-        $type   = $assignment->getFieldType();
+        $type = $assignment->getFieldType();
 
         if ($type instanceof MultipleFieldType) {
 
