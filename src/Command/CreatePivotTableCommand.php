@@ -1,6 +1,6 @@
 <?php namespace Anomaly\MultipleFieldType\Command;
 
-use Anomaly\MultipleFieldType;
+use Anomaly\MultipleFieldType\MultipleFieldType;
 
 /**
  * Class CreatePivotTableCommand
