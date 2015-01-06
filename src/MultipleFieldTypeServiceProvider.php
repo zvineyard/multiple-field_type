@@ -19,7 +19,7 @@ class MultipleFieldTypeServiceProvider extends \Illuminate\Support\ServiceProvid
     public function register()
     {
         $this->app['events']->listen(
-            'streams::assignment.create',
+            'streams::assignment.created',
             'Anomaly\Streams\Addon\FieldType\Multiple\MultipleFieldTypeListener'
         );
     }
