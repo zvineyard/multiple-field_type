@@ -1,12 +1,13 @@
 <?php namespace Anomaly\MultipleFieldType;
 
+use Anomaly\MultipleFieldType\Command\CreatePivotTableCommand;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreatedEvent;
-use Laracasts\Commander\CommanderTrait;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 class MultipleFieldTypeListener
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     public function handle(AssignmentCreatedEvent $event)
     {
@@ -15,11 +16,7 @@ class MultipleFieldTypeListener
         $type = $assignment->getFieldType();
 
         if ($type instanceof MultipleFieldType) {
-
-            $this->execute(
-                'Anomaly\MultipleFieldType\Command\CreatePivotTableCommand',
-                compact('type')
-            );
+            $this->dispatch(new CreatePivotTableCommand($type));
         }
     }
 }
