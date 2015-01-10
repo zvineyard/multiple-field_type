@@ -1,7 +1,7 @@
 <?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\MultipleFieldType\Command\CreatePivotTableCommand;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreatedEvent;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 class MultipleFieldTypeListener
@@ -9,7 +9,7 @@ class MultipleFieldTypeListener
 
     use DispatchesCommands;
 
-    public function handle(AssignmentCreatedEvent $event)
+    public function handle(AssignmentWasCreated $event)
     {
         $assignment = $event->getAssignment();
 
