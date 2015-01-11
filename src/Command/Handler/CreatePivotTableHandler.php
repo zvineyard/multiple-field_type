@@ -1,16 +1,17 @@
-<?php namespace Anomaly\MultipleFieldType\Command;
+<?php namespace Anomaly\MultipleFieldType\Command\Handler;
 
+use Anomaly\MultipleFieldType\Command\CreatePivotTable;
 use Anomaly\MultipleFieldType\MultipleFieldTypeSchema;
 
 /**
- * Class CreatePivotTableCommandHandler
+ * Class CreatePivotTableHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\MultipleFieldType\Command
  */
-class CreatePivotTableCommandHandler
+class CreatePivotTableHandler
 {
 
     /**
@@ -21,7 +22,7 @@ class CreatePivotTableCommandHandler
     protected $schema;
 
     /**
-     * Create a new CreatePivotTableCommandHandler instance.
+     * Create a new CreatePivotTableHandler instance.
      *
      * @param MultipleFieldTypeSchema $schema
      */
@@ -33,9 +34,9 @@ class CreatePivotTableCommandHandler
     /**
      * Handle the command.
      *
-     * @param CreatePivotTableCommand $command
+     * @param CreatePivotTable $command
      */
-    public function handle(CreatePivotTableCommand $command)
+    public function handle(CreatePivotTable $command)
     {
         $type = $command->getType();
 

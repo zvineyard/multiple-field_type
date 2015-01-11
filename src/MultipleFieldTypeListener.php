@@ -1,6 +1,6 @@
 <?php namespace Anomaly\MultipleFieldType;
 
-use Anomaly\MultipleFieldType\Command\CreatePivotTableCommand;
+use Anomaly\MultipleFieldType\Command\CreatePivotTable;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -16,7 +16,7 @@ class MultipleFieldTypeListener
         $type = $assignment->getFieldType();
 
         if ($type instanceof MultipleFieldType) {
-            $this->dispatch(new CreatePivotTableCommand($type));
+            $this->dispatch(new CreatePivotTable($type));
         }
     }
 }
