@@ -31,7 +31,7 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      */
     public function getRelation(EntryModel $model)
     {
-        return $model->hasMany(
+        return $model->belongsToMany(
             array_get($this->config, 'related'),
             $this->getPivotTable(),
             $this->getForeignKey(),
