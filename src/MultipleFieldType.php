@@ -44,7 +44,7 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      *
      * @return array
      */
-    protected function getOptions()
+    public function getOptions()
     {
         $options = [];
 
