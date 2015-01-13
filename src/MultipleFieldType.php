@@ -100,7 +100,7 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      */
     protected function getRelatedModel()
     {
-        $model = array_get($this->config, 'title');
+        $model = array_get($this->config, 'related');
 
         if (!$model) {
             return null;
