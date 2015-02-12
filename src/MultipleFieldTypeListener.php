@@ -11,6 +11,7 @@ class MultipleFieldTypeListener
 
     public function handle(AssignmentWasCreated $event)
     {
+        return;
         $assignment = $event->getAssignment();
 
         $type = $assignment->getFieldType();
