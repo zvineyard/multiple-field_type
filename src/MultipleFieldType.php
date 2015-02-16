@@ -17,6 +17,14 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
 {
 
     /**
+     * Defer processing of this field
+     * type until after the entry is saved.
+     *
+     * @var bool
+     */
+    protected $deferred = true;
+
+    /**
      * No database column.
      *
      * @var bool
