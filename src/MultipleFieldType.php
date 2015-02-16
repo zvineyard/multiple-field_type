@@ -11,10 +11,17 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Addon\FieldType\Multiple
+ * @package       Anomaly\MultipleFieldType
  */
 class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
 {
+
+    /**
+     * No database column.
+     *
+     * @var bool
+     */
+    protected $columnType = false;
 
     /**
      * The input view.
@@ -22,6 +29,24 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      * @var string
      */
     protected $inputView = 'anomaly.field_type.multiple::input';
+
+    /**
+     * The validation rules.
+     *
+     * @var array
+     */
+    protected $rules = [
+        //'validate_choices'
+    ];
+
+    /**
+     * The extra validators.
+     *
+     * @var array
+     */
+    protected $validators = [
+        'validate_choices' => 'Anomaly\MultipleFieldType\MultipleFieldTypeValidator@validate'
+    ];
 
     /**
      * Get the relation.
@@ -33,9 +58,9 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
     {
         return $model->belongsToMany(
             array_get($this->config, 'related'),
-            $this->getPivotTable(),
+            $this->getPivotTableName(),
             $this->getForeignKey(),
-            $this->getRelatedKey()
+            $this->getOtherKey()
         );
     }
 
@@ -48,9 +73,11 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
     {
         $options = [];
 
+        $value = $this->getRelatedIds();
+
         foreach ($this->getModelOptions() as $option) {
 
-            $option['selected'] = in_array($option['value'], $this->getValue());
+            $option['selected'] = in_array($option['value'], $value);
 
             $options[] = $option;
         }
@@ -96,27 +123,27 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
     /**
      * Get the related model.
      *
-     * @return null
+     * @return null|mixed
      */
     protected function getRelatedModel()
     {
         $model = array_get($this->config, 'related');
 
         if (!$model) {
-            return null;
+            throw new \Exception('No related model set for [' . $this->getField() . ']');
         }
 
-        return app()->make($model);
+        return app($model);
     }
 
     /**
-     * Get the value.
+     * Get the related IDs.
      *
      * @return array
      */
-    public function getValue()
+    protected function getRelatedIds()
     {
-        return (array)parent::getValue();
+        return $this->getValue()->get()->lists('id');
     }
 
     /**
@@ -124,7 +151,7 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      *
      * @return mixed
      */
-    public function getPivotTable()
+    public function getPivotTableName()
     {
         $default = 'multiple_' . $this->getField() . '_relations';
 
@@ -146,7 +173,7 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      *
      * @return mixed
      */
-    public function getRelatedKey()
+    public function getOtherKey()
     {
         return array_get($this->config, 'related_key', 'related_id');
     }
