@@ -1,7 +1,7 @@
 <?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeHandler;
-use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
  * Class MultipleFieldTypeHandler
@@ -25,10 +25,10 @@ class MultipleFieldTypeHandler extends FieldTypeHandler
     /**
      * Set the value.
      *
-     * @param EntryModel $entry
-     * @param            $value
+     * @param EloquentModel  $entry
+     * @param                $value
      */
-    public function set(EntryModel $entry, $value)
+    public function set(EloquentModel $entry, $value)
     {
         $this->fieldType->getRelation($entry)->sync((array)$value);
     }
@@ -36,10 +36,10 @@ class MultipleFieldTypeHandler extends FieldTypeHandler
     /**
      * Get the value.
      *
-     * @param EntryModel $entry
+     * @param EloquentModel $entry
      * @return mixed
      */
-    public function get(EntryModel $entry)
+    public function get(EloquentModel $entry)
     {
         return $this->fieldType->getRelation($entry);
     }
