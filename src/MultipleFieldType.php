@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
  * Class MultipleFieldType
@@ -57,6 +56,20 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
     ];
 
     /**
+     * The options handler.
+     *
+     * @var string
+     */
+    protected $options = 'Anomaly\MultipleFieldType\MultipleFieldTypeOptions@handle';
+
+    /**
+     * The list of related IDs.
+     *
+     * @var array
+     */
+    protected $list = null;
+
+    /**
      * Get the relation.
      *
      * @param EntryModel $model
@@ -79,53 +92,7 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      */
     public function getOptions()
     {
-        $options = [];
-
-        $value = $this->getRelatedIds();
-
-        foreach ($this->getModelOptions() as $option) {
-
-            $option['selected'] = in_array($option['value'], $value);
-
-            $options[] = $option;
-        }
-
-        return $options;
-    }
-
-    /**
-     * Get options from the model.
-     *
-     * @return array
-     */
-    protected function getModelOptions()
-    {
-        $model = $this->getRelatedModel();
-
-        if (!$model instanceof EloquentModel) {
-            return [];
-        }
-
-        $options = [];
-
-        foreach ($model->all() as $entry) {
-
-            $value = $entry->getKey();
-
-            if ($title = array_get($this->config, 'title')) {
-                $title = $entry->{$title};
-            }
-
-            if (!$title) {
-                $title = $entry->getTitle();
-            }
-
-            $entry = $entry->toArray();
-
-            $options[] = compact('value', 'title', 'entry');
-        }
-
-        return $options;
+        return app()->call(array_get($this->config, 'handler', $this->options), ['fieldType' => $this]);
     }
 
     /**
@@ -133,15 +100,9 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      *
      * @return null|mixed
      */
-    protected function getRelatedModel()
+    public function getRelatedModel()
     {
-        $model = array_get($this->config, 'related');
-
-        if (!$model) {
-            throw new \Exception('No related model set for [' . $this->getField() . ']');
-        }
-
-        return app($model);
+        return app()->make(array_get($this->config, 'related'));
     }
 
     /**
@@ -149,9 +110,9 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
      *
      * @return array
      */
-    protected function getRelatedIds()
+    public function getList()
     {
-        return $this->getValue()->get()->lists('id');
+        return $this->list = $this->list !== null ? $this->list : $this->getValue()->get()->lists('id');
     }
 
     /**

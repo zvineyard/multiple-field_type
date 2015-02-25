@@ -5,9 +5,9 @@
         multiple
         >
 
-    {% for option in field_type.options %}
+    {% for value, title in field_type.options %}
 
-        <option value="{{ option.value }}" {{ option.selected ? 'selected' }}>{{ option.title }}</option>
+        <option value="{{ value }}" {{ value in field_type.list == field_type.value ? 'selected' }}>{{ title }}</option>
 
     {% endfor %}
 
