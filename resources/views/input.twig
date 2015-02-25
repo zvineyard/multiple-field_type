@@ -1,7 +1,8 @@
 <select
-        name="{{ field_type.getInputName() }}[]"
-        class="form-control select2"
         data-placeholder="{{ field_type.config.placeholder }}"
+        name="{{ field_type.getInputName() }}[]"
+        {{ field_type.disabled ? 'disabled' }}
+        class="form-control select2"
         multiple
         >
 
