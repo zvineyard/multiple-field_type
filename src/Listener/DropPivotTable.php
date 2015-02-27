@@ -1,7 +1,7 @@
 <?php namespace Anomaly\MultipleFieldType\Listener;
 
 use Anomaly\MultipleFieldType\MultipleFieldType;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
 use Illuminate\Database\Schema\Builder;
 
 /**
@@ -33,9 +33,9 @@ class DropPivotTable
     /**
      * Handle the event.
      *
-     * @param AssignmentWasCreated $event
+     * @param AssignmentWasDeleted $event
      */
-    public function handle(AssignmentWasCreated $event)
+    public function handle(AssignmentWasDeleted $event)
     {
         $assignment = $event->getAssignment();
 
