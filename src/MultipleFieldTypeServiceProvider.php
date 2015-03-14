@@ -1,5 +1,7 @@
 <?php namespace Anomaly\MultipleFieldType;
 
+use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+
 /**
  * Class MultipleFieldTypeServiceProvider
  *
@@ -8,16 +10,22 @@
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\MultipleFieldType
  */
-class MultipleFieldTypeServiceProvider extends \Illuminate\Support\ServiceProvider
+class MultipleFieldTypeServiceProvider extends AddonServiceProvider
 {
 
+
     /**
-     * Register the service provider.
+     * The addon listeners.
      *
-     * @return void
+     * @var array
      */
-    public function register()
-    {
-        $this->app->register('Anomaly\MultipleFieldType\MultipleFieldTypeEventProvider');
-    }
+    protected $listeners = [
+        'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated' => [
+            'Anomaly\MultipleFieldType\Listener\CreatePivotTable'
+        ],
+        'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted' => [
+            'Anomaly\MultipleFieldType\Listener\DropPivotTable'
+        ]
+    ];
+
 }
