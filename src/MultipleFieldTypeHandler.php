@@ -1,17 +1,17 @@
 <?php namespace Anomaly\MultipleFieldType;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeHandler;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
- * Class MultipleFieldTypeHandler
+ * Class MultipleFieldTypeAccessor
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\MultipleFieldType
  */
-class MultipleFieldTypeHandler extends FieldTypeHandler
+class MultipleFieldTypeAccessor extends FieldTypeAccessor
 {
 
     /**
