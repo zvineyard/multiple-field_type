@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Class MultipleFieldType
@@ -72,10 +72,10 @@ class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
     /**
      * Get the relation.
      *
-     * @param EntryModel $model
+     * @param EntryInterface $model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany|mixed|null
      */
-    public function getRelation(EntryModel $model)
+    public function getRelation(EntryInterface $model)
     {
         return $model->belongsToMany(
             array_get($this->config, 'related'),
