@@ -1,6 +1,5 @@
 <?php namespace Anomaly\MultipleFieldType;
 
-use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
@@ -12,7 +11,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\MultipleFieldType
  */
-class MultipleFieldType extends FieldType implements RelationFieldTypeInterface
+class MultipleFieldType extends FieldType
 {
 
     /**
