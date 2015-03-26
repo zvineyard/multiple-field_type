@@ -1,7 +1,8 @@
 <?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class MultipleFieldType
@@ -71,10 +72,10 @@ class MultipleFieldType extends FieldType
     /**
      * Get the relation.
      *
-     * @param EntryInterface $model
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany|mixed|null
+     * @param EloquentModel $model
+     * @return BelongsToMany|mixed|null
      */
-    public function getRelation(EntryInterface $model)
+    public function getRelation(EloquentModel $model)
     {
         return $model->belongsToMany(
             array_get($this->config, 'related'),
