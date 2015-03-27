@@ -50,9 +50,7 @@ class CreatePivotTable
         $foreignKey = $fieldType->getForeignKey();
         $otherKey   = $fieldType->getOtherKey();
 
-        if ($this->schema->hasTable($table)) {
-            return;
-        }
+        $this->schema->dropIfExists($table);
 
         $this->schema->create(
             $table,
