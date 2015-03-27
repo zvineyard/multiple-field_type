@@ -112,7 +112,13 @@ class MultipleFieldType extends FieldType
      */
     public function getList()
     {
-        return $this->list = $this->list !== null ? $this->list : $this->getValue()->get()->lists('id');
+        $value = $this->getValue();
+
+        if (!is_object($value)) {
+            return null;
+        }
+
+        return $value->get()->lists('id');
     }
 
     /**
