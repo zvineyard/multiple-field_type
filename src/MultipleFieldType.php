@@ -1,7 +1,6 @@
 <?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -66,12 +65,13 @@ class MultipleFieldType extends FieldType implements SelfHandling
     /**
      * Get the relation.
      *
-     * @param EloquentModel $model
-     * @return BelongsToMany|mixed|null
+     * @return BelongsToMany
      */
-    public function getRelation(EloquentModel $model)
+    public function getRelation()
     {
-        return $model->belongsToMany(
+        $entry = $this->getEntry();
+
+        return $entry->belongsToMany(
             array_get($this->config, 'related'),
             $this->getPivotTableName(),
             $this->getForeignKey(),
