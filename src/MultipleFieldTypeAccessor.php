@@ -1,7 +1,6 @@
 <?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
  * Class MultipleFieldTypeAccessor
@@ -25,22 +24,20 @@ class MultipleFieldTypeAccessor extends FieldTypeAccessor
     /**
      * Set the value.
      *
-     * @param EloquentModel  $entry
-     * @param                $value
+     * @param $value
      */
-    public function set(EloquentModel $entry, $value)
+    public function set($value)
     {
-        $this->fieldType->getRelation($entry)->sync((array)$value);
+        $this->fieldType->getRelation()->sync((array)$value);
     }
 
     /**
      * Get the value.
      *
-     * @param EloquentModel $entry
      * @return mixed
      */
-    public function get(EloquentModel $entry)
+    public function get()
     {
-        return $this->fieldType->getRelation($entry);
+        return $this->fieldType->getRelation();
     }
 }
