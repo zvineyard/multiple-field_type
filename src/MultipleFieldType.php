@@ -2,6 +2,8 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -12,16 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\MultipleFieldType
  */
-class MultipleFieldType extends FieldType
+class MultipleFieldType extends FieldType implements SelfHandling
 {
-
-    /**
-     * Defer processing of this field
-     * type until after the entry is saved.
-     *
-     * @var bool
-     */
-    protected $deferred = true;
 
     /**
      * No database column.
@@ -151,5 +145,17 @@ class MultipleFieldType extends FieldType
     public function getOtherKey()
     {
         return array_get($this->config, 'related_key', 'related_id');
+    }
+
+    /**
+     * Handle saving the form data ourselves.
+     *
+     * @param FormBuilder $builder
+     */
+    public function handle(FormBuilder $builder)
+    {
+        $entry = $builder->getFormEntry();
+
+        $entry->{$this->getField()} = $this->getPostValue();
     }
 }
