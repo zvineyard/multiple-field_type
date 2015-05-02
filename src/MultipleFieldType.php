@@ -1,6 +1,7 @@
 <?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -118,11 +119,12 @@ class MultipleFieldType extends FieldType implements SelfHandling
     /**
      * Get the pivot table.
      *
-     * @return mixed
+     * @param AssignmentInterface $assignment
+     * @return string
      */
-    public function getPivotTableName()
+    public function getPivotTableName(AssignmentInterface $assignment)
     {
-        $default = 'multiple_' . $this->getField() . '_relations';
+        $default = $assignment->getStreamSlug() . '_' . $this->getField();
 
         return array_get($this->config, 'pivot_table', $default);
     }

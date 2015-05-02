@@ -46,7 +46,7 @@ class CreatePivotTable
             return;
         }
 
-        $table      = $fieldType->getPivotTableName();
+        $table      = $fieldType->getPivotTableName($assignment);
         $foreignKey = $fieldType->getForeignKey();
         $otherKey   = $fieldType->getOtherKey();
 
