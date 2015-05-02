@@ -46,7 +46,11 @@ class CreatePivotTable
             return;
         }
 
-        $table      = $fieldType->getPivotTableName($assignment);
+        $table      = array_get(
+            $fieldType->getConfig(),
+            'pivot_table',
+            $assignment->getStreamSlug() . '_' . $fieldType->getField()
+        );
         $foreignKey = $fieldType->getForeignKey();
         $otherKey   = $fieldType->getOtherKey();
 
