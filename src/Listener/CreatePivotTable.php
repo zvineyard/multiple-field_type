@@ -49,7 +49,7 @@ class CreatePivotTable
         $table      = array_get(
             $fieldType->getConfig(),
             'pivot_table',
-            $assignment->getStreamSlug() . '_' . $fieldType->getField()
+            $assignment->getStreamPrefix() . $assignment->getStreamSlug() . '_' . $fieldType->getField()
         );
         $foreignKey = $fieldType->getForeignKey();
         $otherKey   = $fieldType->getOtherKey();
