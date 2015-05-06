@@ -122,7 +122,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
      */
     public function getPivotTableName()
     {
-        $default = $this->entry->getStreamSlug() . '_' . $this->getField();
+        $default = $this->entry->getStreamPrefix() . $this->entry->getStreamSlug() . '_' . $this->getField();
 
         return array_get($this->config, 'pivot_table', $default);
     }
