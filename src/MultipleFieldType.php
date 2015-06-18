@@ -112,7 +112,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
             return null;
         }
 
-        return $value->get()->lists('id');
+        return $value->lists('id');
     }
 
     /**
