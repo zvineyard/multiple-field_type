@@ -112,7 +112,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
             return null;
         }
 
-		return $value->select($this->getPivotTableName().'.id')->lists('id');
+        return $value->select($this->getPivotTableName().'.id')->lists('id');
     }
 
     /**
