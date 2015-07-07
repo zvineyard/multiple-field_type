@@ -31,24 +31,6 @@ class MultipleFieldType extends FieldType implements SelfHandling
     protected $inputView = 'anomaly.field_type.multiple::input';
 
     /**
-     * The validation rules.
-     *
-     * @var array
-     */
-    protected $rules = [
-        //'validate_choices'
-    ];
-
-    /**
-     * The extra validators.
-     *
-     * @var array
-     */
-    protected $validators = [
-        'validate_choices' => 'Anomaly\MultipleFieldType\MultipleFieldTypeValidator@validate'
-    ];
-
-    /**
      * The options handler.
      *
      * @var string
@@ -106,13 +88,9 @@ class MultipleFieldType extends FieldType implements SelfHandling
      */
     public function getList()
     {
-        $value = $this->getValue();
+        $relation = $this->getRelation();
 
-        if (!is_object($value)) {
-            return null;
-        }
-
-        return $value->select($this->getPivotTableName().'.id')->lists('id');
+        return $relation->select($this->getPivotTableName() . '.id')->lists('id');
     }
 
     /**
