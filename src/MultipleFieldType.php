@@ -90,7 +90,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
     {
         $relation = $this->getRelation();
 
-        return $relation->select($this->getPivotTableName() . '.id')->lists('id');
+        return $relation->lists($this->getOtherKey());
     }
 
     /**
