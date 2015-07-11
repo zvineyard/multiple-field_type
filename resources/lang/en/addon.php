@@ -2,5 +2,5 @@
 
 return [
     'name'        => 'Multiple',
-    'description' => 'Multiple field type.',
+    'description' => 'A multiple relationship field type.'
 ];

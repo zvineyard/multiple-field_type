@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 class MultipleFieldTypeServiceProvider extends AddonServiceProvider
 {
 
-
     /**
      * The addon listeners.
      *

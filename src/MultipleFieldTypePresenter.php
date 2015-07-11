@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -28,17 +29,19 @@ class MultipleFieldTypePresenter extends FieldTypePresenter
      *
      * @return null|string
      */
-    public function lists($column = null)
+    public function lists($value = null, $key = null)
     {
         /* @var Relation $value */
-        $value   = $this->object->getValue();
+        $relation = $this->object->getValue();
+
+        /* @var EloquentModel $related */
         $related = $this->object->getRelatedModel();
 
         /* @var EloquentCollection $relations */
-        if ($relations = $value->get()) {
-            return implode(', ', $relations->lists($column ?: $related->getTitleName()));
+        if ($relations = $relation->get()) {
+            return $relations->lists($value ?: $related->getTitleName(), $key ?: $related->getKeyName());
         }
 
-        return null;
+        return [];
     }
 }

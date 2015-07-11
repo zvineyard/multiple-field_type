@@ -31,13 +31,6 @@ class MultipleFieldType extends FieldType implements SelfHandling
     protected $inputView = 'anomaly.field_type.multiple::input';
 
     /**
-     * The options handler.
-     *
-     * @var string
-     */
-    protected $options = 'Anomaly\MultipleFieldType\MultipleFieldTypeOptions@handle';
-
-    /**
      * The list of related IDs.
      *
      * @var array
@@ -68,7 +61,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
      */
     public function getOptions()
     {
-        return app()->call(array_get($this->config, 'handler', $this->options), ['fieldType' => $this]);
+        return app()->call('Anomaly\MultipleFieldType\MultipleFieldTypeOptions@handle', ['fieldType' => $this]);
     }
 
     /**
@@ -79,18 +72,6 @@ class MultipleFieldType extends FieldType implements SelfHandling
     public function getRelatedModel()
     {
         return app()->make(array_get($this->config, 'related'));
-    }
-
-    /**
-     * Get the related IDs.
-     *
-     * @return array
-     */
-    public function getList()
-    {
-        $relation = $this->getRelation();
-
-        return $relation->lists($this->getOtherKey());
     }
 
     /**

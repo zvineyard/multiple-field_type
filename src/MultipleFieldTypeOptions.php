@@ -18,7 +18,6 @@ class MultipleFieldTypeOptions
      *
      * @param MultipleFieldType $fieldType
      * @return array
-     * @throws \Exception
      */
     public function handle(MultipleFieldType $fieldType)
     {
@@ -28,9 +27,16 @@ class MultipleFieldTypeOptions
             return [];
         }
 
-        return $model->all()->lists(
-            array_get($fieldType->getConfig(), 'title', $model->getTitleName()),
-            $model->getKeyName()
+        $query = $model->newQuery();
+
+        $title = array_get($fieldType->getConfig(), 'title');
+        $key   = array_get($fieldType->getConfig(), 'key');
+
+        return array_filter(
+            $query->get()->lists(
+                $title ?: $model->getTitleName(),
+                $key ?: $model->getKeyName()
+            )
         );
     }
 }
