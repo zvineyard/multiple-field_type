@@ -1,8 +1,6 @@
 <?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
@@ -25,43 +23,15 @@ class MultipleFieldTypePresenter extends FieldTypePresenter
     protected $object;
 
     /**
-     * Return a simple lists string.
+     *
      *
      * @return null|string
      */
-    public function lists($value = null, $key = null)
+    public function lists($value, $key = null)
     {
         /* @var Relation $value */
         $relation = $this->object->getValue();
 
-        /* @var EloquentModel $related */
-        $related = $this->object->getRelatedModel();
-
-        return $this->object->getRelation()->lists($value ?: $related->getTitleName(), $key ?: $related->getKeyName());
-
-        /* @var EloquentCollection $relations */
-        if ($relations = $relation->get()) {
-            return $relations->lists($value ?: $related->getTitleName(), $key ?: $related->getKeyName());
-        }
-
-        return [];
-    }
-
-    public function ids()
-    {
-        /* @var Relation $value */
-        $relation = $this->object->getValue();
-
-        /* @var EloquentModel $related */
-        $related = $this->object->getRelatedModel();
-
-        return $this->object->getRelation()->lists('id');
-
-        /* @var EloquentCollection $relations */
-        if ($relations = $relation->get()) {
-            return $relations->lists($value ?: $related->getTitleName(), $key ?: $related->getKeyName());
-        }
-
-        return [];
+        return call_user_func_array([$relation, 'lists'], array_filter(compact('value', 'key')));
     }
 }

@@ -3,6 +3,7 @@
 use Anomaly\MultipleFieldType\Command\BuildOptions;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -49,6 +50,23 @@ class MultipleFieldType extends FieldType implements SelfHandling
      * @var null|array
      */
     protected $options = null;
+
+    /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * Create a new MultipleFieldType instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * Get the relation.

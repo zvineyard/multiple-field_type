@@ -54,9 +54,10 @@ class CreatePivotTable
             $table,
             function (Blueprint $table) {
 
-                $table->increments('id');
                 $table->integer('entry_id');
                 $table->integer('related_id');
+
+                $table->primary(['entry_id', 'related_id']);
             }
         );
     }
