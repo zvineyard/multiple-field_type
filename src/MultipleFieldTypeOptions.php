@@ -1,6 +1,7 @@
 <?php namespace Anomaly\MultipleFieldType;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class MultipleFieldTypeOptions
@@ -23,17 +24,17 @@ class MultipleFieldTypeOptions
     {
         $model = $fieldType->getRelatedModel();
 
-        if (!$model instanceof EloquentModel) {
-            return [];
-        }
-
+        /* @var Builder $query */
         $query = $model->newQuery();
 
         $title = array_get($fieldType->getConfig(), 'title');
         $key   = array_get($fieldType->getConfig(), 'key');
 
+        /* @var EloquentCollection $results */
+        $results = $query->get();
+
         return array_filter(
-            $query->get()->lists(
+            $results->lists(
                 $title ?: $model->getTitleName(),
                 $key ?: $model->getKeyName()
             )

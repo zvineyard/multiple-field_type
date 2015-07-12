@@ -49,8 +49,8 @@ class MultipleFieldType extends FieldType implements SelfHandling
         return $entry->belongsToMany(
             array_get($this->config, 'related'),
             $this->getPivotTableName(),
-            $this->getForeignKey(),
-            $this->getOtherKey()
+            'entry_id',
+            'related_id'
         );
     }
 
@@ -81,29 +81,9 @@ class MultipleFieldType extends FieldType implements SelfHandling
      */
     public function getPivotTableName()
     {
-        $default = $this->entry->getStreamPrefix() . $this->entry->getStreamSlug() . '_' . $this->getField();
+        $stream = $this->entry->getStream();
 
-        return array_get($this->config, 'pivot_table', $default);
-    }
-
-    /**
-     * Get the foreign key.
-     *
-     * @return mixed
-     */
-    public function getForeignKey()
-    {
-        return array_get($this->config, 'foreign_key', 'entry_id');
-    }
-
-    /**
-     * Get the related key.
-     *
-     * @return mixed
-     */
-    public function getOtherKey()
-    {
-        return array_get($this->config, 'related_key', 'related_id');
+        return $stream->getEntryTableName() . '_' . $this->getField();
     }
 
     /**

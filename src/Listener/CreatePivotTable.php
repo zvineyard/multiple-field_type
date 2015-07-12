@@ -46,23 +46,17 @@ class CreatePivotTable
             return;
         }
 
-        $table      = array_get(
-            $fieldType->getConfig(),
-            'pivot_table',
-            $assignment->getStreamPrefix() . $assignment->getStreamSlug() . '_' . $fieldType->getField()
-        );
-        $foreignKey = $fieldType->getForeignKey();
-        $otherKey   = $fieldType->getOtherKey();
+        $table = $assignment->getStreamPrefix() . $assignment->getStreamSlug() . '_' . $fieldType->getField();
 
         $this->schema->dropIfExists($table);
 
         $this->schema->create(
             $table,
-            function (Blueprint $table) use ($foreignKey, $otherKey) {
+            function (Blueprint $table) {
 
                 $table->increments('id');
-                $table->integer($foreignKey);
-                $table->integer($otherKey);
+                $table->integer('entry_id');
+                $table->integer('related_id');
             }
         );
     }
