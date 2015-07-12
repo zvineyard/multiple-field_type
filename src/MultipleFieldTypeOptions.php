@@ -27,16 +27,15 @@ class MultipleFieldTypeOptions
         /* @var Builder $query */
         $query = $model->newQuery();
 
-        $title = array_get($fieldType->getConfig(), 'title');
-        $key   = array_get($fieldType->getConfig(), 'key');
-
         /* @var EloquentCollection $results */
         $results = $query->get();
 
-        return array_filter(
-            $results->lists(
-                $title ?: $model->getTitleName(),
-                $key ?: $model->getKeyName()
+        $fieldType->setOptions(
+            array_filter(
+                $results->lists(
+                    $model->getTitleName(),
+                    $model->getKeyName()
+                )
             )
         );
     }

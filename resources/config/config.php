@@ -32,11 +32,5 @@ return [
         'config' => [
             'min' => 1
         ]
-    ],
-    'title'   => [
-        'type' => 'anomaly.field_type.text'
-    ],
-    'key'     => [
-        'type' => 'anomaly.field_type.text'
     ]
 ];

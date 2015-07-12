@@ -1,9 +1,11 @@
 <?php namespace Anomaly\MultipleFieldType;
 
+use Anomaly\MultipleFieldType\Command\BuildOptions;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class MultipleFieldType
@@ -15,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class MultipleFieldType extends FieldType implements SelfHandling
 {
+
+    use DispatchesCommands;
 
     /**
      * No database column.
@@ -31,11 +35,20 @@ class MultipleFieldType extends FieldType implements SelfHandling
     protected $inputView = 'anomaly.field_type.multiple::input';
 
     /**
-     * The list of related IDs.
+     * The field type config.
      *
      * @var array
      */
-    protected $list = null;
+    protected $config = [
+        'handler' => 'Anomaly\MultipleFieldType\MultipleFieldTypeOptions@handle'
+    ];
+
+    /**
+     * The select input options.
+     *
+     * @var null|array
+     */
+    protected $options = null;
 
     /**
      * Get the relation.
@@ -47,7 +60,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
         $entry = $this->getEntry();
 
         return $entry->belongsToMany(
-            array_get($this->config, 'related'),
+            array_get($this->getConfig(), 'related'),
             $this->getPivotTableName(),
             'entry_id',
             'related_id'
@@ -61,7 +74,24 @@ class MultipleFieldType extends FieldType implements SelfHandling
      */
     public function getOptions()
     {
-        return app()->call('Anomaly\MultipleFieldType\MultipleFieldTypeOptions@handle', ['fieldType' => $this]);
+        if ($this->options === null) {
+            $this->dispatch(new BuildOptions($this));
+        }
+
+        return $this->options;
+    }
+
+    /**
+     * Set the options.
+     *
+     * @param array $options
+     * @return $this
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+
+        return $this;
     }
 
     /**
@@ -71,7 +101,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
      */
     public function getRelatedModel()
     {
-        return app()->make(array_get($this->config, 'related'));
+        return $this->container->make(array_get($this->getConfig(), 'related'));
     }
 
     /**
@@ -81,9 +111,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
      */
     public function getPivotTableName()
     {
-        $stream = $this->entry->getStream();
-
-        return $stream->getEntryTableName() . '_' . $this->getField();
+        return $this->entry->getTableName() . '_' . $this->getField();
     }
 
     /**
@@ -95,6 +123,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
     {
         $entry = $builder->getFormEntry();
 
+        // See the accessor for how IDs are handled.
         $entry->{$this->getField()} = $this->getPostValue();
     }
 }

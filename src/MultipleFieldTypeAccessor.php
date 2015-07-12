@@ -1,6 +1,7 @@
 <?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class MultipleFieldTypeAccessor
@@ -28,7 +29,9 @@ class MultipleFieldTypeAccessor extends FieldTypeAccessor
      */
     public function set($value)
     {
-        $this->fieldType->getRelation()->sync((array)$value);
+        if (is_array($value) || $value instanceof Collection) {
+            $this->fieldType->getRelation()->sync($value);
+        }
     }
 
     /**
