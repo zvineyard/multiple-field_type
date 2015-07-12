@@ -37,6 +37,26 @@ class MultipleFieldTypePresenter extends FieldTypePresenter
         /* @var EloquentModel $related */
         $related = $this->object->getRelatedModel();
 
+        return $this->object->getRelation()->lists($value ?: $related->getTitleName(), $key ?: $related->getKeyName());
+
+        /* @var EloquentCollection $relations */
+        if ($relations = $relation->get()) {
+            return $relations->lists($value ?: $related->getTitleName(), $key ?: $related->getKeyName());
+        }
+
+        return [];
+    }
+
+    public function ids()
+    {
+        /* @var Relation $value */
+        $relation = $this->object->getValue();
+
+        /* @var EloquentModel $related */
+        $related = $this->object->getRelatedModel();
+
+        return $this->object->getRelation()->lists('id');
+
         /* @var EloquentCollection $relations */
         if ($relations = $relation->get()) {
             return $relations->lists($value ?: $related->getTitleName(), $key ?: $related->getKeyName());
