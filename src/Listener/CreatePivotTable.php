@@ -56,6 +56,7 @@ class CreatePivotTable
 
                 $table->integer('entry_id');
                 $table->integer('related_id');
+                $table->integer('sort_order');
 
                 $table->primary(['entry_id', 'related_id']);
             }
