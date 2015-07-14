@@ -26,6 +26,12 @@
     }
 }
 
+.select2-container-multi {
+    &.form-control {
+        padding: 6px;
+    }
+}
+
 // Select wrapper
 .select2-choice {
     width: 100%;
@@ -233,9 +239,9 @@
         padding-right: 28px;
         padding-left: 14px;
         color: #ffffff;
+        background-color: darken(#bdc3c7, 10%);
 
         .select2-search-choice-close {
-            top: 1px;
             opacity: 1;
             filter: none;
             color: inherit;
@@ -251,7 +257,7 @@
         right: 0;
         text-align: right;
         text-decoration: none;
-        top: 0;
+        top: 1px;
         width: 100%;
         bottom: 0;
         padding-right: 10px;
