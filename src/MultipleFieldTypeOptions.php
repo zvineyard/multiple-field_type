@@ -35,7 +35,7 @@ class MultipleFieldTypeOptions
                 $results->lists(
                     $model->getTitleName(),
                     $model->getKeyName()
-                )
+                )->all()
             )
         );
     }
