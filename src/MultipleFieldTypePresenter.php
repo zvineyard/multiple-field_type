@@ -32,6 +32,10 @@ class MultipleFieldTypePresenter extends FieldTypePresenter
         /* @var Relation $value */
         $relation = $this->object->getValue();
 
+        if (is_array($relation)) {
+            return $relation;
+        }
+
         return call_user_func_array([$relation, 'lists'], array_filter(compact('value', 'key')));
     }
 }
