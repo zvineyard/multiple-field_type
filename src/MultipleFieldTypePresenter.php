@@ -23,7 +23,7 @@ class MultipleFieldTypePresenter extends FieldTypePresenter
     protected $object;
 
     /**
-     *
+     * Return the lists output.
      *
      * @return null|string
      */
