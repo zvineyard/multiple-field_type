@@ -36,6 +36,13 @@ class MultipleFieldType extends FieldType implements SelfHandling
     protected $inputView = 'anomaly.field_type.multiple::input';
 
     /**
+     * The filter view.
+     *
+     * @var string
+     */
+    protected $filterView = 'anomaly.field_type.multiple::filter';
+
+    /**
      * The field type config.
      *
      * @var array
