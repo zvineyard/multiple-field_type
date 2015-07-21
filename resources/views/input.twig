@@ -10,7 +10,7 @@
         {{ field_type.readonly ? 'readonly' }}>
 
     {% for key, title in field_type.options %}
-        <option {{ key in field_type.lists('id') ? 'selected' }} value="{{ key }}">{{ title }}</option>
+        <option {{ key in field_type.ids ? 'selected' }} value="{{ key }}">{{ title }}</option>
     {% endfor %}
 
 </select>

@@ -2,6 +2,7 @@
 
 use Anomaly\MultipleFieldType\Command\BuildOptions;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -137,6 +138,26 @@ class MultipleFieldType extends FieldType implements SelfHandling
     public function getPivotTableName()
     {
         return $this->entry->getTableName() . '_' . $this->getField();
+    }
+
+    /**
+     * Return the ids.
+     *
+     * @return array|mixed|static
+     */
+    public function ids()
+    {
+        // Return post data likely.
+        if (is_array($array = $this->getValue())) {
+            return $array;
+        }
+
+        /* @var EloquentCollection $relation */
+        if ($relation = $this->getValue()) {
+            return $relation->lists('id')->all();
+        }
+
+        return [];
     }
 
     /**
