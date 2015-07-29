@@ -1,22 +1,17 @@
 # Output
 
-This field type returns the rendered markdown content by default.
+This field type returns the related objects in a collection by default. You can access the objects like normal.
 
-### Lists
-
-Returns the lists output.
+**Examples:**
 
 ```
-// Twig Usage
-{% for key, value in entry.example.lists %}
-    // Outputs key and value will be the related model
-    {{ key }}
-    {{ value }}
+// Twig usage
+{% for related in entry.example %}
+    The entry {{ related.id }} has a title: {{ entry.title }}.
 {% endfor %}
 
 // API usage
-foreach($entry->example->lists() as $key => $value) {
-    // $key will be the model key
-    // $value will be the related model
+foreach ($entry->example as $k => $related) {
+    echo "The entry {$related->id} has a title: {$file->title}";
 }
 ```

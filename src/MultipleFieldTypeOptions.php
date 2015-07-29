@@ -31,12 +31,10 @@ class MultipleFieldTypeOptions
         $results = $query->get();
 
         $fieldType->setOptions(
-            array_filter(
-                $results->lists(
-                    $model->getTitleName(),
-                    $model->getKeyName()
-                )->all()
-            )
+            $results->lists(
+                $model->getTitleName(),
+                $model->getKeyName()
+            )->all()
         );
     }
 }
