@@ -17,7 +17,7 @@ return [
                     $streams->all()
                 );
 
-                return array_combine($models, $names);
+                return array_combine($models, $names->all());
             }
         ]
     ],
