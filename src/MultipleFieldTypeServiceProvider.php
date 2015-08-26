@@ -27,4 +27,13 @@ class MultipleFieldTypeServiceProvider extends AddonServiceProvider
         ]
     ];
 
+    /**
+     * The singleton bindings.
+     *
+     * @var array
+     */
+    protected $singletons = [
+        'Anomaly\MultipleFieldType\MultipleFieldTypeAccessor' => 'Anomaly\MultipleFieldType\MultipleFieldTypeAccessor'
+    ];
+
 }
