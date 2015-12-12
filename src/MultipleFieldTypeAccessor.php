@@ -36,6 +36,10 @@ class MultipleFieldTypeAccessor extends FieldTypeAccessor
         if ($value instanceof Collection) {
             $this->fieldType->getRelation()->sync($value);
         }
+
+        if (!$value) {
+            $this->fieldType->getRelation()->detach();
+        }
     }
 
     /**
