@@ -1,6 +1,6 @@
 <?php namespace Anomaly\MultipleFieldType;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -18,11 +18,11 @@ class MultipleFieldTypeQuery
     /**
      * Handle the filter query.
      *
-     * @param Builder              $query
-     * @param FieldFilterInterface $filter
-     * @param TableBuilder         $builder
+     * @param Builder         $query
+     * @param FilterInterface $filter
+     * @param TableBuilder    $builder
      */
-    public function filter(Builder $query, FieldFilterInterface $filter, TableBuilder $builder)
+    public function filter(Builder $query, FilterInterface $filter, TableBuilder $builder)
     {
         $stream = $builder->getTableStream();
 
