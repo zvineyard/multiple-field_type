@@ -84,9 +84,10 @@ class MultipleFieldType extends FieldType implements SelfHandling
     public function getRelation()
     {
         $entry = $this->getEntry();
+        $model = $this->getRelatedModel();
 
         return $entry->belongsToMany(
-            array_get($this->getConfig(), 'related'),
+            get_class($model),
             $this->getPivotTableName(),
             'entry_id',
             'related_id'
