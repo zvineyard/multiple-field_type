@@ -1,17 +1,18 @@
-<?php namespace Anomaly\MultipleFieldType;
+<?php namespace Anomaly\MultipleFieldType\Handler;
 
+use Anomaly\MultipleFieldType\MultipleFieldType;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class MultipleFieldTypeOptions
+ * Class Related
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\MultipleFieldType
+ * @package       Anomaly\MultipleFieldType\Handler
  */
-class MultipleFieldTypeOptions
+class Related
 {
 
     /**

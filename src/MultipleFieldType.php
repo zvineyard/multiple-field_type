@@ -1,11 +1,16 @@
 <?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\MultipleFieldType\Command\BuildOptions;
+use Anomaly\MultipleFieldType\Tree\ValueTreeBuilder;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryCollection;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -44,12 +49,24 @@ class MultipleFieldType extends FieldType implements SelfHandling
     protected $filterView = 'anomaly.field_type.multiple::filter';
 
     /**
+     * The pre-defined handlers.
+     *
+     * @var array
+     */
+    protected $handlers = [
+        //'fields'      => 'Anomaly\MultipleFieldType\Handler\Fields@handle',
+        'related' => 'Anomaly\MultipleFieldType\Handler\Related@handle',
+        //'assignments' => 'Anomaly\MultipleFieldType\Handler\Assignments@handle'
+    ];
+
+    /**
      * The field type config.
      *
      * @var array
      */
     protected $config = [
-        'handler' => 'Anomaly\MultipleFieldType\MultipleFieldTypeOptions@handle'
+        'handler' => 'related',
+        'mode'    => 'dropdown'
     ];
 
     /**
@@ -58,6 +75,13 @@ class MultipleFieldType extends FieldType implements SelfHandling
      * @var null|array
      */
     protected $options = null;
+
+    /**
+     * The cache repository.
+     *
+     * @var Repository
+     */
+    protected $cache;
 
     /**
      * The service container.
@@ -69,11 +93,75 @@ class MultipleFieldType extends FieldType implements SelfHandling
     /**
      * Create a new MultipleFieldType instance.
      *
-     * @param Container $container
+     * @param Repository $cache
+     * @param Container  $container
      */
-    public function __construct(Container $container)
+    public function __construct(Repository $cache, Container $container)
     {
+        $this->cache     = $cache;
         $this->container = $container;
+    }
+
+    /**
+     * Return the ids.
+     *
+     * @return array|mixed|static
+     */
+    public function ids()
+    {
+        // Return post data likely.
+        if (is_array($array = $this->getValue())) {
+            return $array;
+        }
+
+        /* @var EloquentCollection $relation */
+        if ($relation = $this->getValue()) {
+            return $relation->lists('id')->all();
+        }
+
+        return [];
+    }
+
+    /**
+     * Return the config key.
+     *
+     * @return string
+     */
+    public function key()
+    {
+        $this->cache->put(
+            'anomaly/multiple-field_type::' . ($key = md5(json_encode($this->getConfig()))),
+            $this->getConfig(),
+            30
+        );
+
+        return $key;
+    }
+
+    /**
+     * Value table.
+     *
+     * @return string
+     */
+    public function tree()
+    {
+        /* @var ValueTreeBuilder $tree */
+        $tree = $this->container->make(ValueTreeBuilder::class);
+
+        $value = $this->getValue();
+
+        if ($value instanceof EntryCollection) {
+            $value = $value->lists('id')->all();
+        }
+
+        return $tree
+            ->setFieldType($this)
+            ->setConfig(new Collection($this->getConfig()))
+            ->setModel($this->config('related'))
+            ->setSelected($value)
+            ->build()
+            ->response()
+            ->getTreeContent();
     }
 
     /**
@@ -91,7 +179,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
             $this->getPivotTableName(),
             'entry_id',
             'related_id'
-        );
+        )->orderBy($this->getPivotTableName() . '.sort_order', 'ASC');
     }
 
     /**
@@ -122,9 +210,29 @@ class MultipleFieldType extends FieldType implements SelfHandling
     }
 
     /**
+     * Get the pre-defined handlers.
+     *
+     * @return array
+     */
+    public function getHandlers()
+    {
+        return $this->handlers;
+    }
+
+    /**
+     * Return the input view.
+     *
+     * @return string
+     */
+    public function getInputView()
+    {
+        return 'anomaly.field_type.multiple::' . $this->config('mode');
+    }
+
+    /**
      * Get the related model.
      *
-     * @return null|mixed
+     * @return null|EntryInterface
      */
     public function getRelatedModel()
     {
@@ -139,26 +247,6 @@ class MultipleFieldType extends FieldType implements SelfHandling
     public function getPivotTableName()
     {
         return $this->entry->getTableName() . '_' . $this->getField();
-    }
-
-    /**
-     * Return the ids.
-     *
-     * @return array|mixed|static
-     */
-    public function ids()
-    {
-        // Return post data likely.
-        if (is_array($array = $this->getValue())) {
-            return $array;
-        }
-
-        /* @var EloquentCollection $relation */
-        if ($relation = $this->getValue()) {
-            return $relation->lists('id')->all();
-        }
-
-        return [];
     }
 
     /**

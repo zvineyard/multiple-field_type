@@ -29,6 +29,10 @@ class MultipleFieldTypeAccessor extends FieldTypeAccessor
      */
     public function set($value)
     {
+        if (is_string($value)) {
+            $this->fieldType->getRelation()->sync($this->organizeSyncValue(explode(',', $value)));
+        }
+
         if (is_array($value)) {
             $this->fieldType->getRelation()->sync($this->organizeSyncValue($value));
         }
