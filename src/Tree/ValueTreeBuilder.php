@@ -4,6 +4,7 @@ use Anomaly\MultipleFieldType\MultipleFieldType;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ValueTreeBuilder
@@ -156,5 +157,24 @@ class ValueTreeBuilder extends TreeBuilder
         $this->fieldType = $fieldType;
 
         return $this;
+    }
+
+    /**
+     * Set the tree entries.
+     *
+     * @param \Illuminate\Support\Collection $entries
+     * @return $this
+     */
+    public function setTreeEntries(\Illuminate\Support\Collection $entries)
+    {
+        if (!$this->getFieldType()) {
+            $entries = $entries->sort(
+                function ($a, $b) {
+                    return array_search($a->id, $this->getSelected()) - array_search($b->id, $this->getSelected());
+                }
+            );
+        }
+
+        return parent::setTreeEntries($entries);
     }
 }

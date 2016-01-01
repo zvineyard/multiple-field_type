@@ -76,8 +76,8 @@ class LookupController extends AdminController
     /**
      * Return the selected entries.
      *
-     * @param ValueTreeBuilder $tree
-     * @param                  $key
+     * @param ValueTreeBuilder  $tree
+     * @param                   $key
      * @return null|string
      */
     public function selected(ValueTreeBuilder $tree, $key)
