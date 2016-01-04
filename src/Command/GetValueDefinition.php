@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class GetValueDefinition
@@ -39,20 +40,27 @@ class GetValueDefinition implements SelfHandling
      * Handle the command.
      *
      * @param MultipleFieldType $fieldType
-     * @param AddonCollection       $addons
-     * @param Repository            $config
+     * @param AddonCollection   $addons
+     * @param Container         $container
+     * @param Repository        $config
      * @return array
      */
-    public function handle(MultipleFieldType $fieldType, AddonCollection $addons, Repository $config)
-    {
+    public function handle(
+        MultipleFieldType $fieldType,
+        AddonCollection $addons,
+        Container $container,
+        Repository $config
+    ) {
         $definition = [];
 
+        $class = get_class($container->make($this->tree->config('related')));
+
         /* @var Addon $addon */
-        foreach ($addons->withConfig('value.' . $this->tree->config('related')) as $addon) {
-            $definition = $config->get($addon->getNamespace('value.' . $this->tree->config('related')));
+        foreach ($addons->withConfig('value.' . $class) as $addon) {
+            $definition = $config->get($addon->getNamespace('value.' . $class));
         }
 
-        $definition = $config->get($fieldType->getNamespace('value.' . $this->tree->config('related')), $definition);
+        $definition = $config->get($fieldType->getNamespace('value.' . $class), $definition);
 
         return $definition;
     }

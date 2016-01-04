@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class GetLookupDefinition
@@ -39,20 +40,27 @@ class GetLookupDefinition implements SelfHandling
      * Handle the command.
      *
      * @param MultipleFieldType $fieldType
-     * @param AddonCollection       $addons
-     * @param Repository            $config
+     * @param AddonCollection   $addons
+     * @param Container         $container
+     * @param Repository        $config
      * @return array
      */
-    public function handle(MultipleFieldType $fieldType, AddonCollection $addons, Repository $config)
-    {
+    public function handle(
+        MultipleFieldType $fieldType,
+        AddonCollection $addons,
+        Container $container,
+        Repository $config
+    ) {
         $definition = [];
 
+        $class = get_class($container->make($this->table->config('related')));
+
         /* @var Addon $addon */
-        foreach ($addons->withConfig('lookup.' . $this->table->config('related')) as $addon) {
-            $definition = $config->get($addon->getNamespace('lookup.' . $this->table->config('related')));
+        foreach ($addons->withConfig('lookup.' . $class) as $addon) {
+            $definition = $config->get($addon->getNamespace('lookup.' . $class));
         }
 
-        $definition = $config->get($fieldType->getNamespace('lookup.' . $this->table->config('related')), $definition);
+        $definition = $config->get($fieldType->getNamespace('lookup.' . $class), $definition);
 
         return $definition;
     }
