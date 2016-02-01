@@ -53,14 +53,14 @@ class GetValueDefinition implements SelfHandling
     ) {
         $definition = [];
 
-        $class = get_class($container->make($this->tree->config('related')));
+        $key = 'multiple.value.' . get_class($container->make($this->tree->config('related')));
 
         /* @var Addon $addon */
-        foreach ($addons->withConfig('value.' . $class) as $addon) {
-            $definition = $config->get($addon->getNamespace('value.' . $class));
+        foreach ($addons->withConfig($key) as $addon) {
+            $definition = $config->get($addon->getNamespace($key));
         }
 
-        $definition = $config->get($fieldType->getNamespace('value.' . $class), $definition);
+        $definition = $config->get($fieldType->getNamespace($key), $definition);
 
         return $definition;
     }

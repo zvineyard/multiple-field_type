@@ -1,6 +1,7 @@
 <?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\MultipleFieldType\Command\BuildOptions;
+use Anomaly\MultipleFieldType\Command\HydrateValueTree;
 use Anomaly\MultipleFieldType\Tree\ValueTreeBuilder;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -154,12 +155,15 @@ class MultipleFieldType extends FieldType implements SelfHandling
             $value = $value->lists('id')->all();
         }
 
-        return $tree
+        $tree
             ->setFieldType($this)
             ->setConfig(new Collection($this->getConfig()))
             ->setModel($this->config('related'))
-            ->setSelected($value)
-            ->build()
+            ->setSelected($value);
+
+        $this->dispatch(new HydrateValueTree($tree));
+
+        return $tree->build()
             ->response()
             ->getTreeContent();
     }

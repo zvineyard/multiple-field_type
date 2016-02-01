@@ -53,14 +53,14 @@ class GetLookupDefinition implements SelfHandling
     ) {
         $definition = [];
 
-        $class = get_class($container->make($this->table->config('related')));
+        $key = 'multiple.lookup.' . get_class($container->make($this->table->config('related')));
 
         /* @var Addon $addon */
-        foreach ($addons->withConfig('lookup.' . $class) as $addon) {
-            $definition = $config->get($addon->getNamespace('lookup.' . $class));
+        foreach ($addons->withConfig($key) as $addon) {
+            $definition = $config->get($addon->getNamespace($key));
         }
 
-        $definition = $config->get($fieldType->getNamespace('lookup.' . $class), $definition);
+        $definition = $config->get($fieldType->getNamespace($key), $definition);
 
         return $definition;
     }
