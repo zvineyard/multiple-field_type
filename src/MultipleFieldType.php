@@ -159,7 +159,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
             ->setFieldType($this)
             ->setConfig(new Collection($this->getConfig()))
             ->setModel($this->config('related'))
-            ->setSelected($value);
+            ->setSelected($value ?: []);
 
         $this->dispatch(new HydrateValueTree($tree));
 
