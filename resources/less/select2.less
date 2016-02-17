@@ -1,4 +1,66 @@
-@import "mixins";
+// Select variants
+//
+
+.select-variant(@color; @background; @hover-background; @active-background; @disabled-background: #bdc3c7; @arrow-color) {
+    .select2-choice {
+        color: @color;
+        background-color: @background;
+
+        &:hover,
+        &.hover,
+        &:focus,
+        &:active {
+            color: @color;
+            background-color: @hover-background;
+            border-color: @hover-background;
+        }
+        &:active {
+            background: @active-background;
+            border-color: @active-background;
+        }
+        .select2-container-disabled& {
+            &,
+            &:hover,
+            &:focus,
+            &:active {
+                background-color: @disabled-background;
+                border-color: @background;
+            }
+        }
+
+        .select2-arrow {
+            border-top-color: @arrow-color;
+        }
+    }
+}
+
+.select-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
+    .button-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius);
+    padding-right: (@padding-horizontal * 2 + 9px);
+    min-height: round((@line-height*@font-size + 2*@padding-vertical)); // we need min-height for empty ones
+}
+
+// Button sizes
+.button-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
+    padding: @padding-vertical @padding-horizontal;
+    font-size: @font-size;
+    line-height: @line-height;
+    border-radius: @border-radius;
+}
+
+.multiple-select-variant(@background; @hover-background; @border-color) {
+    .select2-container-multi& {
+        border-color: @border-color;
+
+        .select2-search-choice {
+            background-color: @background;
+
+            &:hover {
+                background-color: @hover-background;
+            }
+        }
+    }
+}
 
 //
 // Select
@@ -28,7 +90,7 @@
 
 .select2-container-multi {
     &.form-control {
-        padding: 6px;
+        padding: @input-padding-y @input-padding-x;
     }
 }
 
@@ -97,7 +159,7 @@
 }
 
 .select-primary {
-    .select-variant(#ffffff, @secondary, mix(@secondary, white, 80%), mix(@secondary, black, 85%), @arrow-color: #ffffff);
+    .select-variant(#ffffff, @brand-primary, mix(@brand-primary, white, 80%), mix(@brand-primary, black, 85%), @arrow-color: #ffffff);
 }
 
 .select-info {
@@ -197,8 +259,8 @@
     }
     &.form-control {
         height: auto;
-        padding: 6px 1px 1px 6px;
-        border: 2px solid #bdc3c7;
+        border: 1px solid @input-border-color;
+        padding: @input-padding-y @input-padding-x;
     }
 }
 
@@ -220,7 +282,7 @@
 
 // Multiselect tag
 .select2-search-choice {
-    background-color: #bdc3c7;
+    background-color: @gray-light;
     border-radius: 3px;
     color: #ffffff;
     font-size: floor((15px * 0.886)); // ~13px
@@ -229,8 +291,8 @@
     position: relative;
     vertical-align: middle;
     overflow: hidden;
-    margin: 0 5px 4px 0;
-    line-height: 15px;
+    margin: 0 5px 0 0;
+    line-height: 1.3;
     height: 27px;
     padding: 6px 21px;
     transition: .25s linear;
@@ -252,7 +314,7 @@
     .select2-search-choice-close {
         color: #ffffff;
         cursor: pointer;
-        font-size: ceil((15px * 0.8)); // ~12px;
+        font-size: 12px;
         position: absolute;
         right: 0;
         text-align: right;
@@ -260,7 +322,7 @@
         top: 1px;
         width: 100%;
         bottom: 0;
-        padding-right: 10px;
+        padding: 0 10px 0 0;
         z-index: 2;
         transition: opacity .25s linear;
         filter: e(%("alpha(opacity=%d)", 0));
@@ -269,11 +331,9 @@
         opacity: 0;
 
         &:after {
-            content: "\e609";
-            font-family: "Flat-UI-Pro-Icons";
+            content: "\f00d";
             line-height: 27px;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            font-family: "FontAwesome";
         }
     }
 }
@@ -293,11 +353,10 @@
         max-width: inherit;
         min-width: 80px;
         vertical-align: top;
-        height: 29px;
+        height: 27px;
     }
     &:first-child input[type="text"] {
-        height: 23px;
-        margin: 3px 0 5px;
+        height: 27px;
     }
 }
 
@@ -307,7 +366,7 @@
 }
 
 .multiselect-primary {
-    .multiple-select-variant(@secondary, mix(@secondary, white, 80%), @secondary);
+    .multiple-select-variant(@brand-primary, mix(@brand-primary, white, 80%), @brand-primary);
 }
 
 .multiselect-info {
@@ -410,7 +469,7 @@
             &:focus,
             &:hover,
             &:active {
-                background-color: @secondary;
+                background-color: @brand-primary;
                 color: #ffffff;
                 outline: none;
             }
@@ -434,7 +493,7 @@
     // Highlighted item
     .select2-highlighted {
         > .select2-result-label {
-            background: @secondary;
+            background: @brand-primary;
             color: #ffffff;
         }
     }
@@ -457,11 +516,15 @@
 
 // Dropdown wrapper
 .select2-results {
+    overflow-y: auto;
     max-height: 200px;
     position: relative;
     overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    background: #ffffff;
+    background-clip: padding-box;
+    border-radius: @border-radius;
+    border: 1px solid @dropdown-border-color;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
 
 // Dropdown search field
@@ -486,6 +549,7 @@
     .select2-results {
         .select2-result-label {
             color: #ffffff;
+            background: mix(#2c2c2c, black, 85%);
 
             &:focus,
             &:hover,

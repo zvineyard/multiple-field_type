@@ -67,7 +67,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
      */
     protected $config = [
         'handler' => 'related',
-        'mode'    => 'dropdown'
+        'mode'    => 'tags'
     ];
 
     /**
