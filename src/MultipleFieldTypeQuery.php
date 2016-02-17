@@ -1,7 +1,7 @@
 <?php namespace Anomaly\MultipleFieldType;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\MultipleFieldType
  */
-class MultipleFieldTypeQuery
+class MultipleFieldTypeQuery extends FieldTypeQuery
 {
 
     /**
@@ -20,19 +20,16 @@ class MultipleFieldTypeQuery
      *
      * @param Builder         $query
      * @param FilterInterface $filter
-     * @param TableBuilder    $builder
      */
-    public function filter(Builder $query, FilterInterface $filter, TableBuilder $builder)
+    public function filter(Builder $query, FilterInterface $filter)
     {
-        $stream = $builder->getTableStream();
+        $stream = $filter->getStream();
 
-        $table = $stream->getEntryTableName() . '_' . $filter->getField();
-
-        $query->join(
-            $table . ' AS filter_' . $filter->getField(),
+        $query->leftJoin(
+            $stream->getEntryTableName() . '_' . $filter->getField() . ' AS filter_' . $filter->getField(),
             $stream->getEntryTableName() . '.id',
             '=',
             'filter_' . $filter->getField() . '.entry_id'
-        )->where('filter_' . $filter->getField() . '.entry_id', $filter->getValue());
+        )->where('filter_' . $filter->getField() . '.related_id', $filter->getValue());
     }
 }
