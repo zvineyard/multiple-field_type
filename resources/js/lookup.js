@@ -1,10 +1,11 @@
 $(function () {
 
     // Initialize multiple pickers
-    $('.multiple-field_type').each(function () {
+    $('[data-provides="anomaly.field_type.multiple"]').each(function () {
 
-        var wrapper = $(this);
-        var field = wrapper.data('field');
+        var input = $(this);
+        var field = input.data('field_name');
+        var wrapper = input.closest('.form-group');
         var modal = $('#' + field + '-modal');
 
         var selected = $('[name="' + field + '"]').val().split(',');
