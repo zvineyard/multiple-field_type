@@ -93,61 +93,17 @@ $(function () {
             $(this).closest('tr').addClass('danger').fadeOut();
         });
 
-
-        var adjustment;
-
-        var tree = $('.multiple-field_type .selected ul.tree.sortable').sortable({
+        wrapper.find('.selected table').sortable({
             handle: '.handle',
-            nested: false,
-            onDragStart: function ($item, container, _super, event) {
-                $item.css({
-                    height: $item.outerHeight(),
-                    width: $item.outerWidth()
-                });
+            itemSelector: 'tr',
+            itemPath: '> tbody',
+            containerSelector: 'table',
+            placeholder: '<tr class="placeholder"/>',
+            afterMove: function ($placeholder) {
 
-                $item.addClass('dragged');
+                $placeholder.closest('table').find('button.reorder').removeClass('disabled');
 
-                $('body').addClass('dragging');
-
-                adjustment = {
-                    left: container.rootGroup.pointer.left - $item.offset().left,
-                    top: container.rootGroup.pointer.top - $item.offset().top
-                };
-
-                _super($item, container);
-            },
-            onDrag: function ($item, position) {
-                $item.css({
-                    left: position.left - adjustment.left,
-                    top: position.top - adjustment.top
-                });
-            },
-            onDrop: function ($item, container, _super, event) {
-
-                selected = [];
-
-                $.each(tree.sortable('serialize').get()[0], function (key, item) {
-                    selected.push(String(item.id));
-                });
-
-                $('[name="' + field + '"]').val(selected.join(','));
-
-                _super($item, container);
-            },
-            serialize: function ($parent, $children, parentIsContainer) {
-
-                var result = $.extend({}, $parent.data());
-
-                if (parentIsContainer)
-                    return [$children];
-                else if ($children[0]) {
-                    result.children = $children[0]; // This needs to return [0] for some reason..
-                }
-
-                delete result.subContainers;
-                delete result.sortable;
-
-                return result
+                $placeholder.closest('table').find('.dragged').detach().insertBefore($placeholder);
             }
         });
     });
