@@ -34,7 +34,7 @@ class LookupTableBuilder extends TableBuilder
      * @var array
      */
     protected $options = [
-        'title' => 'anomaly.field_type.multiple::message.choose_entry'
+        'title' => 'anomaly.field_type.multiple::message.select_entries'
     ];
 
     /**
