@@ -1,8 +1,8 @@
 <?php namespace Anomaly\MultipleFieldType;
 
 use Anomaly\MultipleFieldType\Command\BuildOptions;
-use Anomaly\MultipleFieldType\Command\HydrateValueTree;
-use Anomaly\MultipleFieldType\Tree\ValueTreeBuilder;
+use Anomaly\MultipleFieldType\Command\HydrateValueTable;
+use Anomaly\MultipleFieldType\Table\ValueTableBuilder;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
@@ -144,10 +144,10 @@ class MultipleFieldType extends FieldType implements SelfHandling
      *
      * @return string
      */
-    public function tree()
+    public function table()
     {
-        /* @var ValueTreeBuilder $tree */
-        $tree = $this->container->make(ValueTreeBuilder::class);
+        /* @var ValueTableBuilder $table */
+        $table = $this->container->make(ValueTableBuilder::class);
 
         $value = $this->getValue();
 
@@ -155,17 +155,17 @@ class MultipleFieldType extends FieldType implements SelfHandling
             $value = $value->lists('id')->all();
         }
 
-        $tree
+        $table
             ->setFieldType($this)
             ->setConfig(new Collection($this->getConfig()))
             ->setModel($this->config('related'))
             ->setSelected($value ?: []);
 
-        $this->dispatch(new HydrateValueTree($tree));
+        $this->dispatch(new HydrateValueTable($table));
 
-        return $tree->build()
+        return $table->build()
             ->response()
-            ->getTreeContent();
+            ->getTableContent();
     }
 
     /**

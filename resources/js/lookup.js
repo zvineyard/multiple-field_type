@@ -20,7 +20,7 @@ $(function () {
 
             $(this).closest('tr').addClass('success').fadeOut();
 
-            wrapper.find('.selected').load(APPLICATION_URL + '/streams/multiple-field_type/selected/' + $(this).data('key') + '?uploaded=' + selected.join(','), function() {
+            wrapper.find('.selected').load(APPLICATION_URL + '/streams/multiple-field_type/selected/' + $(this).data('key') + '?uploaded=' + selected.join(','), function () {
                 var adjustment;
 
                 var tree = $('.multiple-field_type .selected ul.tree.sortable').sortable({
@@ -92,7 +92,6 @@ $(function () {
 
             $(this).closest('tr').addClass('danger').fadeOut();
         });
-
 
 
         var adjustment;

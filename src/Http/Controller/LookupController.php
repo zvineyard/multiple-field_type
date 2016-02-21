@@ -2,10 +2,10 @@
 
 use Anomaly\MultipleFieldType\Command\GetConfiguration;
 use Anomaly\MultipleFieldType\Command\HydrateLookupTable;
-use Anomaly\MultipleFieldType\Command\HydrateValueTree;
+use Anomaly\MultipleFieldType\Command\HydrateValueTable;
 use Anomaly\MultipleFieldType\MultipleFieldType;
 use Anomaly\MultipleFieldType\Table\LookupTableBuilder;
-use Anomaly\MultipleFieldType\Tree\ValueTreeBuilder;
+use Anomaly\MultipleFieldType\Table\ValueTableBuilder;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -76,22 +76,22 @@ class LookupController extends AdminController
     /**
      * Return the selected entries.
      *
-     * @param ValueTreeBuilder  $tree
+     * @param ValueTableBuilder $table
      * @param                   $key
      * @return null|string
      */
-    public function selected(ValueTreeBuilder $tree, $key)
+    public function selected(ValueTableBuilder $table, $key)
     {
         /* @var Collection $config */
         $config = $this->dispatch(new GetConfiguration($key));
 
-        $tree
+        $table
             ->setConfig($config)
             ->setModel($config->get('related'))
             ->setSelected(explode(',', $this->request->get('uploaded')));
 
-        $this->dispatch(new HydrateValueTree($tree));
+        $this->dispatch(new HydrateValueTable($table));
 
-        return $tree->build()->response()->getTreeContent();
+        return $table->build()->response()->getTableContent();
     }
 }

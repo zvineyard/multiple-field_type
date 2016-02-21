@@ -1,20 +1,20 @@
-<?php namespace Anomaly\MultipleFieldType\Tree;
+<?php namespace Anomaly\MultipleFieldType\Table;
 
 use Anomaly\MultipleFieldType\MultipleFieldType;
 use Anomaly\Streams\Platform\Support\Collection;
-use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Class ValueTreeBuilder
+ * Class ValueTableBuilder
  *
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\MultipleFieldType\Tree
+ * @package       Anomaly\MultipleFieldType\Table
  */
-class ValueTreeBuilder extends TreeBuilder
+class ValueTableBuilder extends TableBuilder
 {
 
     /**
@@ -39,11 +39,28 @@ class ValueTreeBuilder extends TreeBuilder
     protected $selected = [];
 
     /**
-     * The tree options.
+     * The table buttons.
      *
      * @var array
      */
-    protected $options = [];
+    protected $buttons = [
+        'remove' => [
+            'data-dismiss' => 'multiple',
+            'data-entry'   => 'entry.id'
+        ]
+    ];
+
+    /**
+     * The table options.
+     *
+     * @var array
+     */
+    protected $options = [
+        'limit'            => 9999,
+        'show_headers'     => false,
+        'sortable_headers' => false,
+        'table_view'       => 'anomaly.field_type.multiple::table/table'
+    ];
 
     /**
      * Fired just before querying.
@@ -74,7 +91,9 @@ class ValueTreeBuilder extends TreeBuilder
              * The JS / UI will be handling the sort
              * order at this time.
              */
-            $query->whereIn('id', $uploaded ?: [0]);
+            if ($uploaded) {
+                $query->whereIn('id', $uploaded ?: [0]);
+            }
         }
     }
 
@@ -160,12 +179,12 @@ class ValueTreeBuilder extends TreeBuilder
     }
 
     /**
-     * Set the tree entries.
+     * Set the table entries.
      *
      * @param \Illuminate\Support\Collection $entries
      * @return $this
      */
-    public function setTreeEntries(\Illuminate\Support\Collection $entries)
+    public function setTableEntries(\Illuminate\Support\Collection $entries)
     {
         if (!$this->getFieldType()) {
             $entries = $entries->sort(
@@ -175,6 +194,6 @@ class ValueTreeBuilder extends TreeBuilder
             );
         }
 
-        return parent::setTreeEntries($entries);
+        return parent::setTableEntries($entries);
     }
 }

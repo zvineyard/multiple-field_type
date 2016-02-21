@@ -1,7 +1,7 @@
 <?php namespace Anomaly\MultipleFieldType\Command;
 
 use Anomaly\MultipleFieldType\MultipleFieldType;
-use Anomaly\MultipleFieldType\Tree\ValueTreeBuilder;
+use Anomaly\MultipleFieldType\Table\ValueTableBuilder;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -20,20 +20,20 @@ class GetValueDefinition implements SelfHandling
 {
 
     /**
-     * The value tree.
+     * The value table.
      *
-     * @var ValueTreeBuilder
+     * @var ValueTableBuilder
      */
-    protected $tree;
+    protected $table;
 
     /**
-     * Create a new HydrateValueTree instance.
+     * Create a new HydrateValueTable instance.
      *
-     * @param ValueTreeBuilder $tree
+     * @param ValueTableBuilder $table
      */
-    public function __construct(ValueTreeBuilder $tree)
+    public function __construct(ValueTableBuilder $table)
     {
-        $this->tree = $tree;
+        $this->table = $table;
     }
 
     /**
@@ -53,7 +53,7 @@ class GetValueDefinition implements SelfHandling
     ) {
         $definition = [];
 
-        $key = 'multiple.value.' . get_class($container->make($this->tree->config('related')));
+        $key = 'multiple.value.' . get_class($container->make($this->table->config('related')));
 
         /* @var Addon $addon */
         foreach ($addons->withConfig($key) as $addon) {

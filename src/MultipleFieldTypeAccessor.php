@@ -47,16 +47,6 @@ class MultipleFieldTypeAccessor extends FieldTypeAccessor
     }
 
     /**
-     * Get the value.
-     *
-     * @return mixed
-     */
-    public function get()
-    {
-        return $this->fieldType->getRelation();
-    }
-
-    /**
      * Organize the value for sync.
      *
      * @param array $value
@@ -75,5 +65,15 @@ class MultipleFieldTypeAccessor extends FieldTypeAccessor
                 array_keys($value)
             )
         );
+    }
+
+    /**
+     * Get the value.
+     *
+     * @return mixed
+     */
+    public function get()
+    {
+        return $this->fieldType->getRelation();
     }
 }
