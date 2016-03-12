@@ -104,6 +104,14 @@ $(function () {
                 $placeholder.closest('table').find('button.reorder').removeClass('disabled');
 
                 $placeholder.closest('table').find('.dragged').detach().insertBefore($placeholder);
+
+                selected = [];
+
+                $(wrapper.find('table').find('[data-dismiss="multiple"]')).each(function() {
+                    selected.push(String($(this).data('entry')));
+                });
+
+                $('[name="' + field + '"]').val(selected.join(','));
             }
         });
     });

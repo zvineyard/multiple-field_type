@@ -2,10 +2,10 @@
 
 use Anomaly\MultipleFieldType\Command\GetConfiguration;
 use Anomaly\MultipleFieldType\Command\HydrateLookupTable;
-use Anomaly\MultipleFieldType\Command\HydrateValueTable;
+use Anomaly\MultipleFieldType\Command\HydrateSelectedTable;
 use Anomaly\MultipleFieldType\MultipleFieldType;
 use Anomaly\MultipleFieldType\Table\LookupTableBuilder;
-use Anomaly\MultipleFieldType\Table\ValueTableBuilder;
+use Anomaly\MultipleFieldType\Table\SelectedTableBuilder;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -76,21 +76,27 @@ class LookupController extends AdminController
     /**
      * Return the selected entries.
      *
-     * @param ValueTableBuilder $table
-     * @param                   $key
+     * @param SelectedTableBuilder $table
+     * @param MultipleFieldType    $fieldType
+     * @param                      $key
      * @return null|string
      */
-    public function selected(ValueTableBuilder $table, $key)
+    public function selected(SelectedTableBuilder $table, MultipleFieldType $fieldType, $key)
     {
         /* @var Collection $config */
         $config = $this->dispatch(new GetConfiguration($key));
 
+        $fieldType->mergeConfig($config->all());
+        $fieldType->setField($config->get('field'));
+        $fieldType->setEntry($this->container->make($config->get('entry')));
+
         $table
             ->setConfig($config)
+            ->setFieldType($fieldType)
             ->setModel($config->get('related'))
             ->setSelected(explode(',', $this->request->get('uploaded')));
 
-        $this->dispatch(new HydrateValueTable($table));
+        $this->dispatch(new HydrateSelectedTable($table));
 
         return $table->build()->response()->getTableContent();
     }

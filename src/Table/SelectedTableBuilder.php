@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Class ValueTableBuilder
+ * Class SelectedTableBuilder
  *
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\MultipleFieldType\Table
  */
-class ValueTableBuilder extends TableBuilder
+class SelectedTableBuilder extends TableBuilder
 {
 
     /**
@@ -76,12 +76,9 @@ class ValueTableBuilder extends TableBuilder
          * If we have the entry available then
          * we can determine saved sort order.
          */
-        $table   = $fieldType->getPivotTableName();
         $related = $fieldType->getRelatedModel();
 
-        $query->join($table, $table . '.related_id', '=', $related->getTableName() . '.id');
-        $query->whereIn($table . '.entry_id', $uploaded ?: 0);
-        $query->orderBy($table . '.sort_order', 'ASC');
+        $query->whereIn($related->getTableName() . '.id', $uploaded ?: 0);
     }
 
     /**

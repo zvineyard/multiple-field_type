@@ -132,7 +132,13 @@ class MultipleFieldType extends FieldType implements SelfHandling
     {
         $this->cache->put(
             'anomaly/multiple-field_type::' . ($key = md5(json_encode($this->getConfig()))),
-            $this->getConfig(),
+            array_merge(
+                $this->getConfig(),
+                [
+                    'field' => $this->getField(),
+                    'entry' => get_class($this->getEntry())
+                ]
+            ),
             30
         );
 
@@ -250,6 +256,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
      */
     public function getPivotTableName()
     {
+
         return $this->entry->getTableName() . '_' . $this->getField();
     }
 
