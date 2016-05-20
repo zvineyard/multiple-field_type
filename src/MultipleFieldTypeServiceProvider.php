@@ -14,20 +14,6 @@ class MultipleFieldTypeServiceProvider extends AddonServiceProvider
 {
 
     /**
-     * The addon listeners.
-     *
-     * @var array
-     */
-    protected $listeners = [
-        'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated' => [
-            'Anomaly\MultipleFieldType\Listener\CreatePivotTable'
-        ],
-        'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted' => [
-            'Anomaly\MultipleFieldType\Listener\DropPivotTable'
-        ]
-    ];
-
-    /**
      * The singleton bindings.
      *
      * @var array
