@@ -170,7 +170,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
         $this->dispatch(new HydrateValueTable($table));
 
         return $table->build()
-            ->response()
+            ->load()
             ->getTableContent();
     }
 
