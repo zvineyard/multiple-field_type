@@ -80,7 +80,7 @@ class ValueTableBuilder extends TableBuilder
         $related = $fieldType->getRelatedModel();
 
         $query->join($table, $table . '.related_id', '=', $related->getTableName() . '.id');
-        $query->whereIn($table . '.entry_id', $uploaded ?: 0);
+        $query->whereIn($table . '.related_id', $uploaded ?: 0);
         $query->orderBy($table . '.sort_order', 'ASC');
     }
 
