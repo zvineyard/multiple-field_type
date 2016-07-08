@@ -152,26 +152,28 @@ class MultipleFieldType extends FieldType implements SelfHandling
      */
     public function table()
     {
-        /* @var ValueTableBuilder $table */
-        $table = $this->container->make(ValueTableBuilder::class);
-
-        $value = $this->getValue();
+        $value   = $this->getValue();
+        $related = $this->getRelatedModel();
 
         if ($value instanceof EntryCollection) {
             $value = $value->lists('id')->all();
         }
 
-        $table
+        if ($table = $this->config('value_table')) {
+            $table = $this->container->make($table);
+        } else {
+            $table = $related->newMultipleFieldTypeValueTableBuilder();
+        }
+
+        /* @var ValueTableBuilder $table */
+        $table->setConfig(new Collection($this->getConfig()))
+            ->setSelected($value ?: [])
             ->setFieldType($this)
-            ->setConfig(new Collection($this->getConfig()))
-            ->setModel($this->config('related'))
-            ->setSelected($value ?: []);
+            ->setModel($related)
+            ->build()
+            ->load();
 
-        $this->dispatch(new HydrateValueTable($table));
-
-        return $table->build()
-            ->load()
-            ->getTableContent();
+        return $table->getTableContent();
     }
 
     /**

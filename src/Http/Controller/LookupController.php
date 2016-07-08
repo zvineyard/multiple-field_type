@@ -6,6 +6,7 @@ use Anomaly\MultipleFieldType\Command\HydrateSelectedTable;
 use Anomaly\MultipleFieldType\MultipleFieldType;
 use Anomaly\MultipleFieldType\Table\LookupTableBuilder;
 use Anomaly\MultipleFieldType\Table\SelectedTableBuilder;
+use Anomaly\MultipleFieldType\Table\ValueTableBuilder;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -27,20 +28,26 @@ class LookupController extends AdminController
     /**
      * Return an index of entries from related stream.
      *
-     * @param LookupTableBuilder $table
-     * @param                    $key
+     * @param Container $container
+     * @param           $key
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(LookupTableBuilder $table, $key)
+    public function index(Container $container, $key)
     {
         /* @var Collection $config */
         $config = $this->dispatch(new GetConfiguration($key));
 
-        $table
-            ->setConfig($config)
-            ->setModel($config->get('related'));
+        $related = $container->make($config->get('related'));
 
-        $this->dispatch(new HydrateLookupTable($table));
+        if ($table = $config->get('lookup_table')) {
+            $table = $container->make($table);
+        } else {
+            $table = $related->newMultipleFieldTypeLookupTableBuilder();
+        }
+
+        /* @var LookupTableBuilder $table */
+        $table->setConfig($config)
+            ->setModel($related);
 
         return $table->render();
     }
@@ -81,7 +88,7 @@ class LookupController extends AdminController
      * @param                      $key
      * @return null|string
      */
-    public function selected(SelectedTableBuilder $table, MultipleFieldType $fieldType, $key)
+    public function selected(Container $container, MultipleFieldType $fieldType, $key)
     {
         /* @var Collection $config */
         $config = $this->dispatch(new GetConfiguration($key));
@@ -90,14 +97,22 @@ class LookupController extends AdminController
         $fieldType->setField($config->get('field'));
         $fieldType->setEntry($this->container->make($config->get('entry')));
 
-        $table
-            ->setConfig($config)
-            ->setFieldType($fieldType)
+        $related = $container->make($config->get('related'));
+
+        if ($table = $config->get('selected_table')) {
+            $table = $container->make($table);
+        } else {
+            $table = $related->newMultipleFieldTypeSelectedTableBuilder();
+        }
+
+        /* @var SelectedTableBuilder $table */
+        $table->setSelected(array_filter(explode(',', $this->request->get('uploaded'))))
             ->setModel($config->get('related'))
-            ->setSelected(explode(',', $this->request->get('uploaded')));
+            ->setFieldType($fieldType)
+            ->setConfig($config)
+            ->build()
+            ->load();
 
-        $this->dispatch(new HydrateSelectedTable($table));
-
-        return $table->build()->load()->getTableContent();
+        return $table->getTableContent();
     }
 }

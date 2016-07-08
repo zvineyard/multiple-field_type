@@ -1,6 +1,12 @@
 <?php namespace Anomaly\MultipleFieldType;
 
+use Anomaly\MultipleFieldType\Table\LookupTableBuilder;
+use Anomaly\MultipleFieldType\Table\SelectedTableBuilder;
+use Anomaly\MultipleFieldType\Table\ValueTableBuilder;
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class MultipleFieldTypeServiceProvider
@@ -32,4 +38,57 @@ class MultipleFieldTypeServiceProvider extends AddonServiceProvider
         'streams/multiple-field_type/index/{key}'    => 'Anomaly\MultipleFieldType\Http\Controller\LookupController@index',
         'streams/multiple-field_type/selected/{key}' => 'Anomaly\MultipleFieldType\Http\Controller\LookupController@selected'
     ];
+
+    /**
+     * Register the addon.
+     *
+     * @param EntryModel $model
+     */
+    public function register(EntryModel $model)
+    {
+        $model->bind(
+            'new_multiple_field_type_lookup_table_builder',
+            function (Container $container) {
+
+                /* @var EntryInterface $this */
+                $builder = $this->getBoundModelNamespace() . '\\Support\\MultipleFieldType\\LookupTableBuilder';
+
+                if (class_exists($builder)) {
+                    return $container->make($builder);
+                }
+
+                return $container->make(LookupTableBuilder::class);
+            }
+        );
+
+        $model->bind(
+            'new_multiple_field_type_value_table_builder',
+            function (Container $container) {
+
+                /* @var EntryInterface $this */
+                $builder = $this->getBoundModelNamespace() . '\\Support\\MultipleFieldType\\ValueTableBuilder';
+
+                if (class_exists($builder)) {
+                    return $container->make($builder);
+                }
+
+                return $container->make(ValueTableBuilder::class);
+            }
+        );
+
+        $model->bind(
+            'new_multiple_field_type_selected_table_builder',
+            function (Container $container) {
+
+                /* @var EntryInterface $this */
+                $builder = $this->getBoundModelNamespace() . '\\Support\\MultipleFieldType\\SelectedTableBuilder';
+
+                if (class_exists($builder)) {
+                    return $container->make($builder);
+                }
+
+                return $container->make(SelectedTableBuilder::class);
+            }
+        );
+    }
 }
