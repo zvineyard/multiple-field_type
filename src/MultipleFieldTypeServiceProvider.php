@@ -1,5 +1,6 @@
 <?php namespace Anomaly\MultipleFieldType;
 
+use Anomaly\MultipleFieldType\Handler\Related;
 use Anomaly\MultipleFieldType\Table\LookupTableBuilder;
 use Anomaly\MultipleFieldType\Table\SelectedTableBuilder;
 use Anomaly\MultipleFieldType\Table\ValueTableBuilder;
@@ -88,6 +89,21 @@ class MultipleFieldTypeServiceProvider extends AddonServiceProvider
                 }
 
                 return $container->make(SelectedTableBuilder::class);
+            }
+        );
+
+        $model->bind(
+            'get_multiple_field_type_options_handler',
+            function () {
+
+                /* @var EntryInterface $this */
+                $handler = $this->getBoundModelNamespace() . '\\Support\\MultipleFieldType\\OptionsHandler';
+
+                if (class_exists($handler)) {
+                    return $handler;
+                }
+
+                return Related::class;
             }
         );
     }
