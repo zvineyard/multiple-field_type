@@ -40,7 +40,7 @@ class BuildOptions implements SelfHandling
     public function handle(Container $container)
     {
         $model   = $this->fieldType->getRelatedModel();
-        $handler = $model->getMultipleFieldTypeOptionsHandler();
+        $handler = $this->fieldType->config('handler', $model->getMultipleFieldTypeOptionsHandler());
 
         if (!class_exists($handler) && !str_contains($handler, '@')) {
             $handler = array_get($this->fieldType->getHandlers(), $handler);

@@ -66,8 +66,7 @@ class MultipleFieldType extends FieldType implements SelfHandling
      * @var array
      */
     protected $config = [
-        'handler' => 'related',
-        'mode'    => 'tags'
+        'mode' => 'tags'
     ];
 
     /**
