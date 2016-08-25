@@ -1,6 +1,6 @@
 <?php namespace Anomaly\MultipleFieldType\Table;
 
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class LookupTableButtons
@@ -8,9 +8,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\MultipleFieldType\Table
  */
-class LookupTableButtons implements SelfHandling
+class LookupTableButtons
 {
 
     /**
@@ -24,8 +23,8 @@ class LookupTableButtons implements SelfHandling
             [
                 'add' => [
                     'data-entry' => 'entry.id',
-                    'data-key'   => $builder->config('key')
-                ]
+                    'data-key'   => $builder->config('key'),
+                ],
             ]
         );
     }

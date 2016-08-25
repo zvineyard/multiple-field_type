@@ -1,6 +1,6 @@
 <?php namespace Anomaly\MultipleFieldType\Table;
 
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class LookupTableColumns
@@ -8,9 +8,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\MultipleFieldType\Table
  */
-class LookupTableColumns implements SelfHandling
+class LookupTableColumns
 {
 
     /**
@@ -32,7 +31,7 @@ class LookupTableColumns implements SelfHandling
 
         $builder->setColumns(
             [
-                $column
+                $column,
             ]
         );
     }

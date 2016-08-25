@@ -1,6 +1,6 @@
 <?php namespace Anomaly\MultipleFieldType\Table;
 
-use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class LookupTableFilters
@@ -8,9 +8,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\MultipleFieldType\Table
  */
-class LookupTableFilters implements SelfHandling
+class LookupTableFilters
 {
 
     /**
@@ -34,9 +33,9 @@ class LookupTableFilters implements SelfHandling
             [
                 'search' => [
                     'fields' => [
-                        $filter
-                    ]
-                ]
+                        $filter,
+                    ],
+                ],
             ]
         );
     }

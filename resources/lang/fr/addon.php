@@ -2,5 +2,5 @@
 
 return [
     'name'        => 'Multiple',
-    'description' => 'Type de champs pour les relations multiples.'
+    'description' => 'Type de champs pour les relations multiples.',
 ];

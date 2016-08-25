@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Collection;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\MultipleFieldType
  */
 class MultipleFieldTypeAccessor extends FieldTypeAccessor
 {
@@ -54,7 +53,7 @@ class MultipleFieldTypeAccessor extends FieldTypeAccessor
     /**
      * Organize the value for sync.
      *
-     * @param array $value
+     * @param  array $value
      * @return array
      */
     protected function organizeSyncValue(array $value)

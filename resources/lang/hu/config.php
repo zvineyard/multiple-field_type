@@ -2,22 +2,22 @@
 
 return [
     'related' => [
-        'label' => 'Releváns Folyam',
+        'label'    => 'Releváns Folyam',
     'instructions' => 'Határozd meg a releváns folyamat a legördülő megjelenítéséhez.',
     ],
     'mode' => [
         'label' => 'Bevitel Módja',
-    'option' => [
+    'option'    => [
         'tags' => 'Cimkék',
-    'lookup' => 'Átvizsgálás',
+    'lookup'   => 'Átvizsgálás',
     ],
     ],
     'min' => [
-        'label' => 'Minimális Kiválasztás',
+        'label'    => 'Minimális Kiválasztás',
     'instructions' => 'Határozd meg a minimálisan kiválasztható elemek számát.',
     ],
     'max' => [
-        'label' => 'Maximális Kiválasztás',
+        'label'    => 'Maximális Kiválasztás',
     'instructions' => 'Határozd meg a maximálisan kiválasztható elemek számát.',
     ],
 ];

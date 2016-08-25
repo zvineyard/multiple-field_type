@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\MultipleFieldType\Handler
  */
 class Related
 {
@@ -18,7 +17,7 @@ class Related
     /**
      * Handle the options.
      *
-     * @param MultipleFieldType $fieldType
+     * @param  MultipleFieldType $fieldType
      * @return array
      */
     public function handle(MultipleFieldType $fieldType)

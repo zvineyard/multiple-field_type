@@ -20,7 +20,6 @@ use Illuminate\Contracts\Container\Container;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\MultipleFieldType\Http\Controller
  */
 class LookupController extends AdminController
 {
@@ -28,8 +27,8 @@ class LookupController extends AdminController
     /**
      * Return an index of entries from related stream.
      *
-     * @param Container $container
-     * @param           $key
+     * @param  Container                                  $container
+     * @param                                             $key
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Container $container, $key)
@@ -73,7 +72,7 @@ class LookupController extends AdminController
         foreach ($model->all() as $item) {
             $data[] = (object)[
                 'id'   => $item->getId(),
-                'text' => $item->getTitle()
+                'text' => $item->getTitle(),
             ];
         }
 
@@ -83,9 +82,9 @@ class LookupController extends AdminController
     /**
      * Return the selected entries.
      *
-     * @param SelectedTableBuilder $table
-     * @param MultipleFieldType    $fieldType
-     * @param                      $key
+     * @param  SelectedTableBuilder $table
+     * @param  MultipleFieldType    $fieldType
+     * @param                       $key
      * @return null|string
      */
     public function selected(Container $container, MultipleFieldType $fieldType, $key)

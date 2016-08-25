@@ -1,7 +1,6 @@
 <?php namespace Anomaly\MultipleFieldType\Command;
 
 use Anomaly\Streams\Platform\Support\Collection;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Cache\Repository;
 
 /**
@@ -10,9 +9,8 @@ use Illuminate\Contracts\Cache\Repository;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\MultipleFieldType\Command
  */
-class GetConfiguration implements SelfHandling
+class GetConfiguration
 {
 
     /**
@@ -35,7 +33,7 @@ class GetConfiguration implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param Repository $cache
+     * @param  Repository $cache
      * @return Collection
      */
     public function handle(Repository $cache)

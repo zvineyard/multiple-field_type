@@ -24,8 +24,8 @@ return [
                 ksort($options);
 
                 return $options;
-            }
-        ]
+            },
+        ],
     ],
     'mode'    => [
         'required' => true,
@@ -33,20 +33,20 @@ return [
         'config'   => [
             'options' => [
                 'tags'   => 'anomaly.field_type.multiple::config.mode.option.tags',
-                'lookup' => 'anomaly.field_type.multiple::config.mode.option.lookup'
-            ]
-        ]
+                'lookup' => 'anomaly.field_type.multiple::config.mode.option.lookup',
+            ],
+        ],
     ],
     'min'     => [
         'type'   => 'anomaly.field_type.integer',
         'config' => [
-            'min' => 1
-        ]
+            'min' => 1,
+        ],
     ],
     'max'     => [
         'type'   => 'anomaly.field_type.integer',
         'config' => [
-            'min' => 1
-        ]
-    ]
+            'min' => 1,
+        ],
+    ],
 ];

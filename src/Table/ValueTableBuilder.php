@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\MultipleFieldType\Table
  */
 class ValueTableBuilder extends TableBuilder
 {
@@ -46,8 +45,8 @@ class ValueTableBuilder extends TableBuilder
     protected $buttons = [
         'remove' => [
             'data-dismiss' => 'multiple',
-            'data-entry'   => 'entry.id'
-        ]
+            'data-entry'   => 'entry.id',
+        ],
     ];
 
     /**
@@ -59,7 +58,7 @@ class ValueTableBuilder extends TableBuilder
         'limit'            => 9999,
         'show_headers'     => false,
         'sortable_headers' => false,
-        'table_view'       => 'anomaly.field_type.multiple::table/table'
+        'table_view'       => 'anomaly.field_type.multiple::table/table',
     ];
 
     /**
@@ -72,7 +71,7 @@ class ValueTableBuilder extends TableBuilder
         $uploaded  = $this->getSelected();
         $fieldType = $this->getFieldType();
 
-        /**
+        /*
          * If we have the entry available then
          * we can determine saved sort order.
          */
@@ -87,8 +86,8 @@ class ValueTableBuilder extends TableBuilder
     /**
      * Return a config value.
      *
-     * @param      $key
-     * @param null $default
+     * @param        $key
+     * @param  null  $default
      * @return mixed
      */
     public function config($key, $default = null)
@@ -109,7 +108,7 @@ class ValueTableBuilder extends TableBuilder
     /**
      * Set the config.
      *
-     * @param Collection $config
+     * @param  Collection $config
      * @return $this
      */
     public function setConfig(Collection $config)
@@ -132,7 +131,7 @@ class ValueTableBuilder extends TableBuilder
     /**
      * Get the selected value.
      *
-     * @param array $selected
+     * @param  array $selected
      * @return $this
      */
     public function setSelected(array $selected)
@@ -155,7 +154,7 @@ class ValueTableBuilder extends TableBuilder
     /**
      * Set the field type.
      *
-     * @param MultipleFieldType $fieldType
+     * @param  MultipleFieldType $fieldType
      * @return $this
      */
     public function setFieldType(MultipleFieldType $fieldType)
@@ -168,7 +167,7 @@ class ValueTableBuilder extends TableBuilder
     /**
      * Set the table entries.
      *
-     * @param \Illuminate\Support\Collection $entries
+     * @param  \Illuminate\Support\Collection $entries
      * @return $this
      */
     public function setTableEntries(\Illuminate\Support\Collection $entries)
