@@ -23,7 +23,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class MultipleFieldType extends FieldType
 {
-
     use DispatchesJobs;
 
     /**
@@ -114,7 +113,7 @@ class MultipleFieldType extends FieldType
 
         /* @var EloquentCollection $relation */
         if ($relation = $this->getValue()) {
-            return $relation->lists('id')->all();
+            return $relation->pluck('id')->all();
         }
 
         return [];
@@ -153,7 +152,7 @@ class MultipleFieldType extends FieldType
         $related = $this->getRelatedModel();
 
         if ($value instanceof EntryCollection) {
-            $value = $value->lists('id')->all();
+            $value = $value->pluck('id')->all();
         }
 
         if ($table = $this->config('value_table')) {
@@ -255,7 +254,6 @@ class MultipleFieldType extends FieldType
      */
     public function getPivotTableName()
     {
-
         return $this->entry->getTableName() . '_' . $this->getField();
     }
 

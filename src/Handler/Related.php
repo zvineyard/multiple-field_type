@@ -4,13 +4,6 @@ use Anomaly\MultipleFieldType\MultipleFieldType;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class Related
- *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
- */
 class Related
 {
 
@@ -31,7 +24,7 @@ class Related
         $results = $query->get();
 
         $fieldType->setOptions(
-            $results->lists(
+            $results->pluck(
                 $model->getTitleName(),
                 $model->getKeyName()
             )->all()
