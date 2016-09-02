@@ -75,12 +75,17 @@ class ValueTableBuilder extends TableBuilder
          * If we have the entry available then
          * we can determine saved sort order.
          */
-        $table   = $fieldType->getPivotTableName();
-        $related = $fieldType->getRelatedModel();
+        $table     = $fieldType->getPivotTableName();
+        $related   = $fieldType->getRelatedModel();
+        $entry     = $fieldType->getEntry();
 
-        $query->join($table, $table . '.related_id', '=', $related->getTableName() . '.id');
-        $query->whereIn($table . '.related_id', $uploaded ?: 0);
-        $query->orderBy($table . '.sort_order', 'ASC');
+        if ($entry->getId() && $related && !$uploaded) {
+            $query->join($table, $table . '.related_id', '=', $related->getTableName() . '.id');
+            $query->where($table . '.entry_id', $entry->getId());
+            $query->orderBy($table . '.sort_order', 'ASC');
+        } else {
+            $query->whereIn('id', $uploaded ?: [0]);
+        }
     }
 
     /**

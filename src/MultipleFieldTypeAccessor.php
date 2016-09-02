@@ -44,7 +44,7 @@ class MultipleFieldTypeAccessor extends FieldTypeAccessor
 
             return;
         }
-
+        
         $this->fieldType->getRelation()->sync($value);
     }
 
@@ -56,7 +56,7 @@ class MultipleFieldTypeAccessor extends FieldTypeAccessor
      */
     protected function organizeSyncValue(array $value)
     {
-        $value = array_filter($value);
+        $value = array_filter(array_unique($value));
 
         return array_combine(
             array_values($value),

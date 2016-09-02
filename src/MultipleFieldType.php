@@ -58,6 +58,15 @@ class MultipleFieldType extends FieldType
     ];
 
     /**
+     * The field type rules.
+     *
+     * @var array
+     */
+    protected $rules = [
+        'array',
+    ];
+
+    /**
      * The field type config.
      *
      * @var array
@@ -106,17 +115,33 @@ class MultipleFieldType extends FieldType
      */
     public function ids()
     {
-        // Return post data likely.
-        if (is_array($array = $this->getValue())) {
-            return $array;
+        $value = $this->getValue();
+
+        if (is_object($value)) {
+            $value = $value->pluck('id')->all();
         }
 
-        /* @var EloquentCollection $relation */
-        if ($relation = $this->getValue()) {
-            return $relation->pluck('id')->all();
+        return array_filter($value);
+    }
+
+    /**
+     * Get the rules.
+     *
+     * @return array
+     */
+    public function getRules()
+    {
+        $rules = parent::getRules();
+
+        if ($min = array_get($this->getConfig(), 'min')) {
+            $rules[] = 'min:' . $min;
         }
 
-        return [];
+        if ($max = array_get($this->getConfig(), 'max')) {
+            $rules[] = 'max:' . $max;
+        }
+
+        return $rules;
     }
 
     /**
@@ -151,25 +176,24 @@ class MultipleFieldType extends FieldType
         $value   = $this->getValue();
         $related = $this->getRelatedModel();
 
-        if ($value instanceof EntryCollection) {
-            $value = $value->pluck('id')->all();
-        }
-
         if ($table = $this->config('value_table')) {
             $table = $this->container->make($table);
         } else {
             $table = $related->newMultipleFieldTypeValueTableBuilder();
         }
 
-        /* @var ValueTableBuilder $table */
         $table->setConfig(new Collection($this->getConfig()))
-            ->setSelected($value ?: [])
             ->setFieldType($this)
-            ->setModel($related)
-            ->build()
-            ->load();
+            ->setModel($related);
 
-        return $table->getTableContent();
+        if (!$value instanceof EntryCollection) {
+            $table->setSelected($value);
+        }
+
+        return $table
+            ->build()
+            ->load()
+            ->getTableContent();
     }
 
     /**
@@ -255,6 +279,17 @@ class MultipleFieldType extends FieldType
     public function getPivotTableName()
     {
         return $this->entry->getTableName() . '_' . $this->getField();
+    }
+
+    /**
+     * Get the post value.
+     *
+     * @param  null  $default
+     * @return array
+     */
+    public function getPostValue($default = null)
+    {
+        return explode(',', parent::getPostValue($default));
     }
 
     /**

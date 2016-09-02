@@ -1,7 +1,7 @@
-$(function () {
+$(function() {
 
     // Initialize multiple pickers
-    $('[data-provides="anomaly.field_type.multiple"]').each(function () {
+    $('[data-provides="anomaly.field_type.multiple"]').each(function() {
 
         var input = $(this);
         var field = input.data('field_name');
@@ -10,23 +10,23 @@ $(function () {
 
         var selected = $('[name="' + field + '"]').val().split(',');
 
-        modal.on('click', '[data-entry]', function (e) {
+        modal.on('click', '[data-entry]', function(e) {
 
             e.preventDefault();
 
             selected.push(String($(this).data('entry')));
 
-            $('[name="' + field + '"]').val(selected.join(','));
+            $('[name="' + field + '"]').val($.unique(selected).join(','));
 
             $(this).closest('tr').addClass('success').fadeOut();
 
-            wrapper.find('.selected').load(REQUEST_ROOT_PATH + '/streams/multiple-field_type/selected/' + $(this).data('key') + '?uploaded=' + selected.join(','), function () {
+            wrapper.find('.selected').load(REQUEST_ROOT_PATH + '/streams/multiple-field_type/selected/' + $(this).data('key') + '?uploaded=' + selected.join(','), function() {
                 var adjustment;
 
                 var tree = $('.multiple-field_type .selected ul.tree.sortable').sortable({
                     handle: '.handle',
                     nested: false,
-                    onDragStart: function ($item, container, _super, event) {
+                    onDragStart: function($item, container, _super, event) {
                         $item.css({
                             height: $item.outerHeight(),
                             width: $item.outerWidth()
@@ -43,17 +43,17 @@ $(function () {
 
                         _super($item, container);
                     },
-                    onDrag: function ($item, position) {
+                    onDrag: function($item, position) {
                         $item.css({
                             left: position.left - adjustment.left,
                             top: position.top - adjustment.top
                         });
                     },
-                    onDrop: function ($item, container, _super, event) {
+                    onDrop: function($item, container, _super, event) {
 
                         selected = [];
 
-                        $.each(tree.sortable('serialize').get()[0], function (key, item) {
+                        $.each(tree.sortable('serialize').get()[0], function(key, item) {
                             selected.push(String(item.id));
                         });
 
@@ -61,7 +61,7 @@ $(function () {
 
                         _super($item, container);
                     },
-                    serialize: function ($parent, $children, parentIsContainer) {
+                    serialize: function($parent, $children, parentIsContainer) {
 
                         var result = $.extend({}, $parent.data());
 
@@ -82,7 +82,7 @@ $(function () {
             $(wrapper).find('[data-dismiss="multiple"]').removeClass('hidden');
         });
 
-        $(wrapper).on('click', '[data-dismiss="multiple"]', function (e) {
+        $(wrapper).on('click', '[data-dismiss="multiple"]', function(e) {
 
             e.preventDefault();
 
@@ -99,7 +99,7 @@ $(function () {
             itemPath: '> tbody',
             containerSelector: 'table',
             placeholder: '<tr class="placeholder"/>',
-            afterMove: function ($placeholder) {
+            afterMove: function($placeholder) {
 
                 $placeholder.closest('table').find('button.reorder').removeClass('disabled');
 
