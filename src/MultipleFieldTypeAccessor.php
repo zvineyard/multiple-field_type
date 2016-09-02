@@ -30,24 +30,22 @@ class MultipleFieldTypeAccessor extends FieldTypeAccessor
     public function set($value)
     {
         if (is_string($value)) {
-            $this->fieldType->getRelation()->sync($this->organizeSyncValue(explode(',', $value)));
-        }
-
-        if (is_array($value)) {
-            $this->fieldType->getRelation()->sync($this->organizeSyncValue($value));
-        }
-
-        if ($value instanceof Collection) {
-            $this->fieldType->getRelation()->sync($this->organizeSyncValue($value->filter()->all()));
-        }
-
-        if ($value instanceof EntryInterface) {
-            $this->fieldType->getRelation()->sync($this->organizeSyncValue([$value->getId()]));
+            $value = $this->organizeSyncValue(explode(',', $value));
+        } elseif (is_array($value)) {
+            $value = $this->organizeSyncValue($value);
+        } elseif ($value instanceof Collection) {
+            $value = $this->organizeSyncValue($value->filter()->all());
+        } elseif ($value instanceof EntryInterface) {
+            $value = $this->organizeSyncValue([$value->getId()]);
         }
 
         if (!$value) {
             $this->fieldType->getRelation()->detach();
+
+            return;
         }
+
+        $this->fieldType->getRelation()->sync($value);
     }
 
     /**
