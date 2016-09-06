@@ -289,7 +289,11 @@ class MultipleFieldType extends FieldType
      */
     public function getPostValue($default = null)
     {
-        return explode(',', parent::getPostValue($default));
+        if (is_array($value = parent::getPostValue($default))) {
+            return $value;
+        }
+
+        return explode(',', $value);
     }
 
     /**
