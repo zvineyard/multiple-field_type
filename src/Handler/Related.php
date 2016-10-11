@@ -32,8 +32,8 @@ class Related
 
         $fieldType->setOptions(
             $results->pluck(
-                $model->getTitleName(),
-                $model->getKeyName()
+                $fieldType->config('title_name', $model->getTitleName()),
+                $fieldType->config('key_name', $model->getKeyName())
             )->all()
         );
     }

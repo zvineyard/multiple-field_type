@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Container\Container;
@@ -264,7 +265,7 @@ class MultipleFieldType extends FieldType
     /**
      * Get the related model.
      *
-     * @return null|EntryInterface
+     * @return EloquentModel
      */
     public function getRelatedModel()
     {
