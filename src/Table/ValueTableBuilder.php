@@ -4,7 +4,6 @@ use Anomaly\MultipleFieldType\MultipleFieldType;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class ValueTableBuilder
@@ -75,16 +74,16 @@ class ValueTableBuilder extends TableBuilder
          * If we have the entry available then
          * we can determine saved sort order.
          */
-        $table     = $fieldType->getPivotTableName();
-        $related   = $fieldType->getRelatedModel();
-        $entry     = $fieldType->getEntry();
+        $table   = $fieldType->getPivotTableName();
+        $related = $fieldType->getRelatedModel();
+        $entry   = $fieldType->getEntry();
 
         if ($entry->getId() && $related && !$uploaded) {
             $query->join($table, $table . '.related_id', '=', $related->getTableName() . '.id');
             $query->where($table . '.entry_id', $entry->getId());
             $query->orderBy($table . '.sort_order', 'ASC');
-        } else {
-            $query->whereIn('id', $uploaded ?: [0]);
+        } elseif ($related) {
+            $query->whereIn($related->getTableName() . '.id', $uploaded ?: [0]);
         }
     }
 
@@ -92,7 +91,7 @@ class ValueTableBuilder extends TableBuilder
      * Return a config value.
      *
      * @param        $key
-     * @param  null  $default
+     * @param  null $default
      * @return mixed
      */
     public function config($key, $default = null)
