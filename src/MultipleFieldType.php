@@ -298,6 +298,20 @@ class MultipleFieldType extends FieldType
     }
 
     /**
+     * Get the class.
+     *
+     * @return null|string
+     */
+    public function getClass()
+    {
+        if ($class = parent::getClass()) {
+            return $class;
+        }
+
+        return $this->config('mode') == 'dropdown' ? 'custom-select form-control' : null;
+    }
+
+    /**
      * Handle saving the form data ourselves.
      *
      * @param FormBuilder $builder
