@@ -62,5 +62,8 @@ $(function () {
                 }
             });
         }
+
+        // Sort initially
+        wrapper.sort();
     });
 });
