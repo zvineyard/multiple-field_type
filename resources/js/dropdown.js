@@ -1,7 +1,10 @@
-$(function () {
+$(document).on('ajaxComplete ready', function () {
 
     // Initialize tag inputs.
-    $('select[data-provides="multiple"]').each(function () {
-        $(this).select2();
+    $('select[data-provides="multiple"]:not([data-initialized])').each(function () {
+
+        $(this)
+            .attr('data-initialized', '')
+            .select2();
     });
 });
