@@ -85,7 +85,7 @@ class MultipleFieldTypeAccessor extends FieldTypeAccessor
         array_walk(
             $value,
             function (&$value, $key) {
-                $value['file_id'] = $key;
+                $value['related_id'] = $key;
             }
         );
 
