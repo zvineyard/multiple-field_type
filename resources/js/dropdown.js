@@ -5,6 +5,9 @@ $(document).on('ajaxComplete ready', function () {
 
         $(this)
             .attr('data-initialized', '')
-            .select2();
+            .select2({
+                containerCssClass: 'form-control custom-select select2-override',
+                dropdownCssClass: 'select2-option-override'
+            });
     });
 });
