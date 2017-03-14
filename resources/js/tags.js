@@ -1,7 +1,7 @@
 $(document).on('ajaxComplete ready', function () {
 
     // Initialize tag inputs.
-    $('select[data-provides="multiple"]:not([data-initialized])').each(function () {
+    $('select[data-provides="anomaly.field_type.multiple"]:not([data-initialized])').each(function () {
 
         $(this)
             .attr('data-initialized', '')
