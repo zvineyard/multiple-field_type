@@ -36,7 +36,10 @@ class MultipleFieldTypeSchema extends FieldTypeSchema
                 $table->integer('related_id');
                 $table->integer('sort_order')->nullable();
 
-                $table->unique(['entry_id', 'related_id'], 'unique-relations');
+                $table->unique(
+                    ['entry_id', 'related_id'],
+                    $table->getTable() . '_' . $this->fieldType->getField().'-unique-relations'
+                );
             }
         );
     }
