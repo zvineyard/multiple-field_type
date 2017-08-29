@@ -38,7 +38,7 @@ class MultipleFieldTypeSchema extends FieldTypeSchema
 
                 $table->unique(
                     ['entry_id', 'related_id'],
-                    $table->getTable() . '_' . $this->fieldType->getField().'-unique-relations'
+                    md5($table->getTable() . '_' . $this->fieldType->getField().'-unique-relations')
                 );
             }
         );
