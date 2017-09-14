@@ -25,7 +25,7 @@ class MultipleFieldTypeServiceProvider extends AddonServiceProvider
      * @var array
      */
     protected $singletons = [
-        'Anomaly\MultipleFieldType\MultipleFieldTypeAccessor' => 'Anomaly\MultipleFieldType\MultipleFieldTypeAccessor',
+        MultipleFieldTypeAccessor::class => MultipleFieldTypeAccessor::class,
     ];
 
     /**
