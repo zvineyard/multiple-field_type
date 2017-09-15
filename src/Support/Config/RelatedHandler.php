@@ -26,8 +26,10 @@ class RelatedHandler
 
         /* @var StreamInterface as $stream */
         foreach ($streams->visible() as $stream) {
-            $options[ucwords(str_replace('_', ' ', $stream->getNamespace()))][$stream->getEntryModelName(
-            )] = $stream->getName();
+            $moduleName = ucwords(str_replace('_', ' ', $stream->getNamespace()));
+            $entryName  = $stream->getEntryModelName();
+
+            array_set($options, "{$moduleName}.{$entryName}", $stream->getName());
         }
 
         foreach ($options as $namespace) {
