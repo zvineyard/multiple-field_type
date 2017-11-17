@@ -17,7 +17,7 @@ class RelatedHandler
     /**
      * Handle the options.
      *
-     * @param SelectFieldType $fieldType
+     * @param SelectFieldType           $fieldType
      * @param StreamRepositoryInterface $streams
      */
     public function handle(SelectFieldType $fieldType, StreamRepositoryInterface $streams)
@@ -26,10 +26,12 @@ class RelatedHandler
 
         /* @var StreamInterface as $stream */
         foreach ($streams->visible() as $stream) {
-            $moduleName = ucwords(str_replace('_', ' ', $stream->getNamespace()));
-            $entryName  = $stream->getEntryModelName();
 
-            array_set($options, "{$moduleName}.{$entryName}", $stream->getName());
+            $addon = ucwords(str_replace('_', ' ', $stream->getNamespace()));
+
+            $model = $stream->getEntryModelName();
+
+            array_set($options, "{$addon}.{$model}", $stream->getName());
         }
 
         foreach ($options as $namespace) {
