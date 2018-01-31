@@ -188,7 +188,7 @@ class MultipleFieldType extends FieldType
             ->setModel($related);
 
         if (!$value instanceof EntryCollection) {
-            $table->setSelected($value);
+            $table->setSelected((array)$value);
         }
 
         return $table
